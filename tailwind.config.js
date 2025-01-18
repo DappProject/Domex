@@ -1,11 +1,29 @@
 /** @type {import('tailwindcss').Config} */
+
+
 export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    
+    extend: {
+      colors:{
+        primary : "#74C0FA",
+        secondary: "#ADDAFC",
+        darkprimary : "#171717",
+        darksecondary : "#262626",
+        orangeprimary : "#FF5D00",
+        orangesecondary : "#CC4A00"
+      },
+      height: {
+        'calc-nav-footer': 'calc(100vh - 74px - 4rem)', // Customize as needed
+      },
+      backgroundImage : {
+        "bg-main" : "url(./assets/bg-main.png)"
+      }
+    },
   },
   plugins: [],
 }
