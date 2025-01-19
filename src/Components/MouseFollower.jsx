@@ -16,7 +16,7 @@ const MouseFollower = () => {
       gsap.to(follower, {
         x: event.clientX,
         y: event.clientY,
-        duration: 0.2, // Smooth movement
+        duration: 0.4, // Smooth movement
         ease: 'power3.out', // Easing function
       });
     };
@@ -58,13 +58,12 @@ const handleMouseEnter = () => {
           left: 0,
           width: '20px',
           height: '20px',
-          backgroundImage: 'linear-gradient(45deg, lightblue, white)',
+          backgroundImage: 'linear-gradient(190deg, #3b82f6, white)',
           borderRadius: '50%',
           pointerEvents: 'none',
           zIndex: 1000,
         }}
       ></div>
-      <div onMouseOver={handleMouseEnter} onMouseOut={handleMouseLeave}>Hover Me</div>
     </>
   );
 };

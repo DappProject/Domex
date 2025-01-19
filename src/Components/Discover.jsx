@@ -151,7 +151,7 @@ function Discover() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4  ">
         {/* Cards Section */}
         {currentCards.map((cardData, index) => (
-          <NavLink to="/ai-agent" state={{
+          <NavLink to="/Discover/ai-agent" state={{
             image: cardData.image,
             title : cardData.title,
             description : cardData.description,
