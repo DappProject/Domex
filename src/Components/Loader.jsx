@@ -1,6 +1,5 @@
-// Loader.js
-import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
+import React, { useEffect, useRef } from "react";
+import { gsap } from "gsap";
 
 const Loader = ({ onLoaded }) => {
   const loaderRef = useRef(null);
@@ -13,55 +12,49 @@ const Loader = ({ onLoaded }) => {
       },
     });
 
-    // Animate the text upwards
+    // Animate loader text and fade out
     tl.to(textRef.current, {
-      y: -50,
+      y: 0,
       opacity: 1,
       duration: 0.5,
-      ease: 'power3.out',
+      ease: "power3.out",
     })
       .to(textRef.current, {
+        y: -50,
         opacity: 1,
-        y:-50,
         duration: 1.5,
-        ease: 'power3.out',
+        ease: "power3.out",
       })
-     
-      // Fade out the loader
       .to(
         loaderRef.current,
         {
           opacity: 0,
-          duration: 0.5,
-          ease: 'power3.out',
+          duration: 1,
+          ease: "power3.out",
         },
         "-=0.5"
       )
-      .set(loaderRef.current, { display: 'none' }); // Remove loader after animation
+      .set(loaderRef.current, { display: "none" }); // Remove loader after animation
   }, [onLoaded]);
 
   return (
     <div
       ref={loaderRef}
-      className="fixed inset-0  bg-transparent flex items-center justify-center z-50"
-      style={{
-        backdropFilter: 'blur(4px)', // Blur effect
-      }}
+      className="absolute inset-0 flex flex-col items-center justify-center bg-transparent bg-opacity-60 z-50 text-black"
     >
       <h1
         ref={textRef}
-        className="text-white text-7xl font-extrabold opacity-0"
+        className="text-7xl font-bold mb-4 opacity-0"
         style={{
-          letterSpacing: '2px',
-          background: 'linear-gradient(45deg, blue, #ffffff)', // Light blue and white gradient
-          backgroundClip: 'text',
-          color: 'transparent', // Make the text color transparent to show the gradient
-          WebkitBackgroundClip: 'text', // Required for webkit browsers
-          textShadow: '4px 4px 10px rgba(48, 137, 227, 0.3), -4px -4px 6px rgba(138, 78, 242, 0.4)', // 3D text shadow
+          fontFamily: "Creepster",
+          fontWeight: 400,
         }}
       >
         DOMEX
       </h1>
+      <p className="text-xl text-center max-w-2xl">
+        Welcome. We've built a powerful tool to bring your Web3 ideas to life.
+      </p>
     </div>
   );
 };

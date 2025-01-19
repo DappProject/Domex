@@ -106,14 +106,15 @@ function MyAIAgent() {
         <div className=" grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-2">
           <div className="bg-darkprimary rounded-lg shadow-lg p-4  border-[1px] border-darksecondary hover:border-1 flex flex-col items-center gap-5 cursor-pointer">
 
-            <NavLink to="/" className="h-16 w-16 flex items-center justify-center rounded-full bg-darksecondary">
+            <NavLink to="/Discover" className="h-16 w-16 flex items-center justify-center rounded-full bg-darksecondary">
               <HiOutlinePlus  className="text-3xl"/>
             </NavLink>
             <h1>Create AI Agent</h1>
             <p className="text-[14px] text-zinc-400 text-center">Craft and deploy intelligent AI agents tailored to your specific objectives.</p>
+
             {
               isAccessToken ? (
-                <NavLink to="/create-agent" className="bg-primary w-full hover:bg-secondary duration-200 px-4 py-2 text-black rounded-3xl font-medium text-center">Create Now</NavLink>
+                <NavLink to="/Discover/create-agent" className="bg-primary w-full hover:bg-secondary duration-200 px-4 py-2 text-black rounded-3xl font-medium text-center">Create Now</NavLink>
               ) : (
                 <button className="bg-primary w-full hover:bg-secondary duration-200 px-4 py-2 text-black rounded-3xl font-medium" onClick={()=>{handleConnetWalletClick()}}>Connect Wallet</button>
               )

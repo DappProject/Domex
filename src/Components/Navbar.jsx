@@ -40,29 +40,29 @@ function Navbar() {
   return (
     <>
       <nav className="h-[74px] w-full bg-darkprimary flex items-center justify-center  text-white fixed top-0 border-b-[1px] border-darksecondary hover:border-1">
-        <div className="md:w-[80%] w-[90%] lg:flex hidden justify-between items-center">
-          <div className="md:w-1/3 flex justify-between items-center gap-2">
-            <NavLink className="text-2xl font-semibold" to={"/"}>
-              Domex
-            </NavLink>
+
+        <div className="w-[80%] md:flex hidden justify-between items-center">
+          <div className="md:w-1/3 flex justify-between items-center">
+            <NavLink className="text-2xl font-semibold" to={"/"}>Domex</NavLink>
             <div className="flex items-center gap-2">
               <NavLink
                 className={({ isActive }) =>
-                  `${
-                    isActive ? "text-primary bg-darksecondary " : "text-white"
-                  } hover:text-primary duration-150 font-bold rounded-3xl px-5 py-2`
+                  `${isActive ? "text-primary bg-darksecondary" : "text-white"} hover:text-primary duration-150 font-bold rounded-3xl px-5 py-2`
                 }
-                to="/"
+                to="/Discover"
+                end // Ensures exact match
+
               >
                 Discover
               </NavLink>
               <NavLink
                 className={({ isActive }) =>
+
                   `${
                     isActive ? "text-primary bg-darksecondary  " : "text-white"
                   } hover:text-primary text-nowrap duration-150 font-bold rounded-3xl px-5 py-2`
                 }
-                to={"/my-agent"}
+                to="/Discover/my-agent"
               >
                 My AI Agent
               </NavLink>
