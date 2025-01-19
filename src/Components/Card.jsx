@@ -4,11 +4,11 @@ import { PiDevicesFill } from "react-icons/pi";
 import { LuCalendarDays } from "react-icons/lu"
 const Card = ({ image, title, description, owner, modeProvider, modeName, created }) => {
   return (
-    <div className="bg-darkprimary rounded-lg shadow-lg p-4 w-72 border-[1px] border-darksecondary hover:border-1 hover:border-primary duration-150">
+    <div className="bg-darkprimary rounded-lg shadow-lg p-4 sm:w-72 border-[1px] border-darksecondary hover:border-1 hover:border-primary duration-150">
       
       <div className="flex items-center justify-between">
         <img
-          src={"https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png"}
+          src={image}
           alt={title}
           className="w-10 h-10 rounded-full mr-3"
         />

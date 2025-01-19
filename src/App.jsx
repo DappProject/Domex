@@ -9,7 +9,7 @@ function App() {
     <>
 
       <Navbar/>
-        <div className='bg-black bg-bg-main bg-cover bg-center min-h-[100vh] w-full py-2 scrollbar-hide mt-[74px] mb-16 px-36'>
+        <div className='bg-black bg-bg-main bg-cover bg-center bg-fixed min-h-[100vh] w-full py-2 scrollbar-hide mt-[74px] mb-16 flex  justify-center px-5'>
           <Outlet/>
         </div>
       <Footer/>

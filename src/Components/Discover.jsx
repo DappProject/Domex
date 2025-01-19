@@ -2,10 +2,48 @@ import React, { useState } from "react";
 import Card from "./Card";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { NavLink } from "react-router-dom";
 
 function Discover() {
   const cards = [
     {
+      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/gemma.png",
+      title: "zeebot",
+      description: "im here to stay",
+      owner: "cgjo...6wjj",
+      modeProvider: "Gemma",
+      modeName: "Chat (67B)",
+      created: "4 hours ago",
+    },
+    {
+      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
+      title: "zee",
+      description: "im here to stay",
+      owner: "cgjo...6wjj",
+      modeProvider: "Meta LLama",
+      modeName: "Chat (67B)",
+      created: "4 hours ago",
+    },
+    {
+      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/gemma.png",
+      title: "bot",
+      description: "im here to stay",
+      owner: "cgjo...6wjj",
+      modeProvider: "Gemma",
+      modeName: "Chat (67B)",
+      created: "4 hours ago",
+    },
+    {
+      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/gemma.png",
+      title: "zeebot",
+      description: "im here to stay",
+      owner: "cgjo...6wjj",
+      modeProvider: "Gemma",
+      modeName: "Chat (67B)",
+      created: "4 hours ago",
+    },
+    {
+      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
       title: "zeebot",
       description: "im here to stay",
       owner: "cgjo...6wjj",
@@ -14,6 +52,16 @@ function Discover() {
       created: "4 hours ago",
     },
     {
+      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/gemma.png",
+      title: "zeebot",
+      description: "im here to stay",
+      owner: "cgjo...6wjj",
+      modeProvider: "Gemma",
+      modeName: "Chat (67B)",
+      created: "4 hours ago",
+    },
+    {
+      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
       title: "zeebot",
       description: "im here to stay",
       owner: "cgjo...6wjj",
@@ -22,6 +70,16 @@ function Discover() {
       created: "4 hours ago",
     },
     {
+      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/gemma.png",
+      title: "zeebot",
+      description: "im here to stay",
+      owner: "cgjo...6wjj",
+      modeProvider: "Gemma",
+      modeName: "Chat (67B)",
+      created: "4 hours ago",
+    },
+    {
+      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
       title: "zeebot",
       description: "im here to stay",
       owner: "cgjo...6wjj",
@@ -30,6 +88,7 @@ function Discover() {
       created: "4 hours ago",
     },
     {
+      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
       title: "zeebot",
       description: "im here to stay",
       owner: "cgjo...6wjj",
@@ -38,6 +97,7 @@ function Discover() {
       created: "4 hours ago",
     },
     {
+      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
       title: "zeebot",
       description: "im here to stay",
       owner: "cgjo...6wjj",
@@ -46,46 +106,7 @@ function Discover() {
       created: "4 hours ago",
     },
     {
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "DeepSeek",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "DeepSeek",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "DeepSeek",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "DeepSeek",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "DeepSeek",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
+      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
       title: "zeebot",
       description: "im here to stay",
       owner: "cgjo...6wjj",
@@ -94,18 +115,11 @@ function Discover() {
       created: "4 hours ago",
     },
     {
+      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
       title: "zeebot",
       description: "im here to stay",
       owner: "cgjo...6wjj",
       modeProvider: "Meta LLama",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "DeepSeek",
       modeName: "Chat (67B)",
       created: "4 hours ago",
     },
@@ -125,19 +139,29 @@ function Discover() {
   };
 
   return (
-    <div className="min-h-[100vh] text-white ">
+    <div className="min-h-[100vh] mb-5 text-white ">
       {/* Header Section */}
       <header className=" py-10">
         <h1 className="text-4xl font-bold">Welcome to Domex</h1>
         <p className="text-gray-400 mt-2">
           The framework to create, manage and integrate AI Agents.
-        </p>
+        </p>  
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4  ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4  ">
         {/* Cards Section */}
         {currentCards.map((cardData, index) => (
-          <Card
+          <NavLink to="/ai-agent" state={{
+            image: cardData.image,
+            title : cardData.title,
+            description : cardData.description,
+            owner : cardData.owner,
+            modeProvider : cardData.modeProvider,
+            modeName : cardData.modeName,
+            created : cardData.created
+          }
+          }>
+            <Card
             key={index}
             image={cardData.image}
             title={cardData.title}
@@ -147,6 +171,8 @@ function Discover() {
             modeName={cardData.modeName}
             created={cardData.created}
           />
+          </NavLink>
+          
         ))}
       </div>
 
