@@ -142,13 +142,13 @@ function Discover() {
     <div className="min-h-[100vh] mb-5 text-white ">
       {/* Header Section */}
       <header className=" py-10">
-        <h1 className="text-4xl font-bold">Welcome to Domex</h1>
-        <p className="text-gray-400 mt-2">
+        <h1 className="sm:text-4xl text-2xl font-bold">Welcome to Domex</h1>
+        <p className="text-gray-400 sm:text-base text-sm mt-2">
           The framework to create, manage and integrate AI Agents.
         </p>  
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4  ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
         {/* Cards Section */}
         {currentCards.map((cardData, index) => (
           <NavLink to="/Discover/ai-agent" state={{
