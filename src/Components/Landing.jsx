@@ -6,6 +6,9 @@ import bgVideo2 from "../assets/bg-video2.mp4";
 import { Link } from "react-router-dom";
 import OurFeatures from "./OurFeatures";
 import Faq from "./Faq";
+import ContactUs from "./ContactUs";
+import MainFooter from "./MainFooter";
+import Process from "./Process";
 
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -130,7 +133,25 @@ const Landing = () => {
       )}
       {!isLoading && (
         <>
+          <Process/>
+          
+        </>
+      )}
+      {!isLoading && (
+        <>
           <Faq className="z-50"/>
+          
+        </>
+      )}
+      {!isLoading && (
+        <>
+          <ContactUs/>
+          
+        </>
+      )}
+      {!isLoading && (
+        <>
+          <MainFooter/>
           
         </>
       )}
