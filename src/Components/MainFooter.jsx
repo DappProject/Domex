@@ -2,7 +2,7 @@ import React from 'react';
 
 function MainFooter() {
   return (
-    <footer className="bg-[#080808] shadow-teal-200 text-gray-400 py-8">
+    <footer className="bg-[#080808]  text-gray-400 py-8">
       <div className="container mx-auto px-4">
         {/* Call to Action */}
         <div className="flex flex-col md:flex-row border-2 border-gray-700 rounded-3xl px-6 md:px-8 py-8 items-center justify-between">
@@ -26,17 +26,19 @@ function MainFooter() {
         <div className="border-t border-gray-700 mt-8"></div>
 
         {/* Footer Links */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mt-10 space-y-8 md:space-y-0">
+        <div className="flex flex-col md:flex-row md:justify-around justify-center items-center md:items-start mt-10 space-y-8 md:space-y-0">
           {/* Left Section */}
           <div className="text-center md:text-left">
-            <p className="text-white text-2xl sm:text-4xl font-semibold mb-2">Domex</p>
-            <p className="text-sm sm:text-md text-gray-500">
-              &copy; 2025, Sine Inc - All rights reserved.
+          <p className="text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-500 text-3xl sm:text-5xl font-semibold mb-2">
+  Domex
+</p>
+            <p className="text-sm sm:text-base text-gray-500">
+              &copy; 2025, Domex Inc - All rights reserved.
             </p>
           </div>
 
           {/* Socials and Links */}
-          <div className="flex flex-col sm:flex-row sm:space-x-16">
+          <div className="flex gap-9 ">
             {/* Socials */}
             <div>
               <h3 className="text-white font-semibold text-md">Socials</h3>
@@ -65,14 +67,7 @@ function MainFooter() {
                     Discord
                   </a>
                 </li>
-                <li>
-                  <a
-                    href="#"
-                    className="font-medium text-base hover:text-white"
-                  >
-                    Buy (Unreleased)
-                  </a>
-                </li>
+               
               </ul>
             </div>
             {/* Links */}
@@ -95,14 +90,7 @@ function MainFooter() {
                     Process
                   </a>
                 </li>
-                <li>
-                  <a
-                    href="#"
-                    className="font-medium text-base hover:text-white"
-                  >
-                    Team
-                  </a>
-                </li>
+               
                 <li>
                   <a
                     href="#"
@@ -119,22 +107,8 @@ function MainFooter() {
                     FAQ
                   </a>
                 </li>
-                <li>
-                  <a
-                    href="#"
-                    className="font-medium text-base hover:text-white"
-                  >
-                    Contact
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="font-medium text-base hover:text-white"
-                  >
-                    404
-                  </a>
-                </li>
+               
+              
               </ul>
             </div>
           </div>

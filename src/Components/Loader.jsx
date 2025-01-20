@@ -42,16 +42,13 @@ const Loader = ({ onLoaded }) => {
       ref={loaderRef}
       className="absolute inset-0 flex flex-col items-center justify-center bg-transparent bg-opacity-60 z-50 text-black"
     >
-      <h1
-        ref={textRef}
-        className="text-7xl text-white font-bold mb-4 opacity-0"
-        style={{
-          fontFamily: "Creepster",
-          fontWeight: 400,
-        }}
-      >
-        DOMEX
-      </h1>
+     <h1
+  ref={textRef}
+  className="text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-500 text-8xl font-bold mb-4 opacity-0"
+>
+  DOMEX
+</h1>
+
     
     </div>
   );

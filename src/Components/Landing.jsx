@@ -143,12 +143,7 @@ const Landing = () => {
           
         </>
       )}
-      {!isLoading && (
-        <>
-          <ContactUs/>
-          
-        </>
-      )}
+     
       {!isLoading && (
         <>
           <MainFooter/>
