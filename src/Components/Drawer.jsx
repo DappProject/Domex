@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Button } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
 import useAccess from "../context/accessTokenContext";
@@ -12,6 +12,7 @@ import { CiWallet } from "react-icons/ci";
 const api_url = import.meta.env.API_URL;
 
 export default function MyDrawer() {
+  const navigate = useNavigate()
   const { isAccessToken } = useAccess();
   const [open, setOpen] = React.useState(false);
   const publicKey = {
@@ -50,6 +51,17 @@ export default function MyDrawer() {
     setOpen(newOpen);
   };
 
+  const handleDiscnnectWalletClick =  async () => {
+    try {
+      
+      console.log('called')
+        localStorage.removeItem("accessToken")
+      navigate("/Discover/my-agent")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const DrawerList = (
     <Box
       className="w-[100%] h-full flex flex-col justify-center items-center p-5"
@@ -87,7 +99,7 @@ export default function MyDrawer() {
         </div>
         <div className="w-full flex flex-col justify-end items-center gap-3">
           {isAccessToken ? (
-            <button className="w-64 bg-gradient-to-b from-primary border-[1px] border-secondary text-nowrap duration-200 px-4 py-2 text-white rounded-3xl font-medium flex items-center justify-center gap-2">
+            <button className="w-64 bg-gradient-to-b from-primary border-[1px] border-secondary text-nowrap duration-200 px-4 py-2 text-white rounded-3xl font-medium flex items-center justify-center gap-2" onClick={()=>{handleDiscnnectWalletClick()}}>
               <CiWallet /> 9au...pgsk
             </button>
           ) : (
@@ -113,7 +125,7 @@ export default function MyDrawer() {
   );
 
   return (
-    <div className="lg:hidden block">
+    <div className="md:hidden block">
       <Button onClick={toggleDrawer(true)}>
         <RxHamburgerMenu className="text-2xl text-primary" />
       </Button>

@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import MyDrawer from "./Drawer.jsx";
 import axios from "axios";
 import useAccess from "../context/accessTokenContext.js";
@@ -8,12 +8,15 @@ import { AiFillFire } from "react-icons/ai";
 const api_url = import.meta.env.API_URL
 
 function Navbar() {
+  const navigate = useNavigate()
  const {isAccessToken} = useAccess()
+ const[loading, setLoading] = useState(false)
 
 
   const publicKey = {publicKey : "djkndfvjhbdfsjkvbdfjkvhbdfb"}
 
   const handleConnetWalletClick = async () =>{
+    setLoading(true)
     try {
       const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/nonce`, publicKey)
       if(response.data.statusCode == 200){
@@ -23,7 +26,9 @@ function Navbar() {
           const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/verify-nonce`, publicKey)
           console.log(response)
           if(response.data.statusCode == 200){
+            setLoading(false)
             localStorage.setItem("accessToken" , response.data.data.token)
+            navigate(document.referrer)
           }
         } catch (error) {
           console.log(error)
@@ -33,6 +38,17 @@ function Navbar() {
       console.log(error)
     }
   };
+
+  const handleDiscnnectWalletClick =  async () => {
+    try {
+      
+      console.log('called')
+        localStorage.removeItem("accessToken")
+      window.location.href = "/Discover/my-agent"
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
 
@@ -83,8 +99,8 @@ function Navbar() {
             
             {
               isAccessToken ?(
-            <button className=" bg-gradient-to-b from-primary border-[1px] border-secondary text-nowrap duration-200 px-4 py-2 text-white rounded-3xl font-medium flex items-center gap-2" >
-              <CiWallet/> 9au...p3k 
+            <button className=" bg-gradient-to-b from-primary border-[1px] border-secondary text-nowrap duration-200 px-4 py-2 text-white rounded-3xl font-medium flex items-center gap-[5px]" onClick={()=>{handleDiscnnectWalletClick()}}>
+              <CiWallet className="text-white text-lg"/> 9au...p3k 
             </button>
               ) : (
                 <button className="bg-primary text-nowrap hover:bg-secondary duration-200 px-4 py-2 text-black rounded-3xl font-medium" onClick={()=>handleConnetWalletClick()}>
@@ -94,7 +110,7 @@ function Navbar() {
             }
           </div>
         </div>
-        <div className="lg:w-[80%] w-[90%] lg:hidden flex justify-between items-center">
+        <div className="lg:w-[80%] w-[90%] md:hidden flex justify-between items-center">
           <NavLink className="sm:text-2xl text-xl font-semibold" to={"/"}>
             Domex
           </NavLink>

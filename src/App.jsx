@@ -9,17 +9,17 @@ function App() {
   const [isAccessToken, setIsAccessToken] = useState(false)
   
     useEffect(()=>{
-      const localstorage = localStorage.getItem("accessToken")
-      if(localstorage){
+      const accessToken = localStorage.getItem("accessToken")
+      if(accessToken){
         setIsAccessToken(true)
       }
-    }, [])
+    }, [isAccessToken])
 
   return (
     <>
       <AccessProvider value={{isAccessToken}}>
       <Navbar/>
-        <div className='bg-black bg-bg-main bg-cover bg-center bg-fixed min-h-[100vh] w-full py-2 scrollbar-hide mt-[74px] mb-16 flex  justify-center md:px-5 px-3'>
+        <div className='bg-black bg-bg-main bg-cover bg-center bg-fixed min-h-[81.1vh] w-full py-2 scrollbar-hide mt-[74px] mb-16 flex  justify-center md:px-5 px-3'>
           <Outlet/>
         </div>
       <Footer/>

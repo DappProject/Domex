@@ -1,64 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { HiOutlinePlus } from "react-icons/hi2";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Card from "./Card.jsx";
 
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
 import useAccess from "../context/accessTokenContext.js";
+import { ApiGetBackendRequest } from "../axios/BackendRequest.js";
+import Loading from "./Loading.jsx";
 
 function MyAIAgent() {
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
   const {isAccessToken} = useAccess();
+  const [agents, setAgents] = useState([])
 
-  const cards = [
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/gemma.png",
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Gemma",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
-      title: "zee",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Meta LLama",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/gemma.png",
-      title: "bot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Gemma",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/gemma.png",
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Gemma",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Meta LLama",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-  ];
 
+  useEffect(()=>{
+    if(isAccessToken){
+      fetch()
+    } else {
+      setAgents([])
+      return
+    }
+    function fetch(){
+      setLoading(true)
+      ApiGetBackendRequest(`https://domex-mw1q.onrender.com/agent`)
+    .then((res)=>{
+      if(res.data.statusCode == 200){
+        setAgents(res.data.data.results)
+        setLoading(false)
+      }
+    })
+    }
+     
+  }, [isAccessToken])
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 7; // Number of cards per page
@@ -66,7 +43,7 @@ function MyAIAgent() {
     // Calculate start and end index for the current page
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const currentCards = cards.slice(startIndex, endIndex);
+    const currentAgents = agents.slice(startIndex, endIndex);
   
     // Handle pagination change
     const handlePageChange = (event, value) => {
@@ -86,6 +63,7 @@ function MyAIAgent() {
             console.log(response)
             if(response.data.statusCode == 200){
               localStorage.setItem("accessToken" , response.data.data.token)
+              navigate("/Discover/my-agent")
             }
           } catch (error) {
             console.log(error)
@@ -98,13 +76,13 @@ function MyAIAgent() {
 
   return (
     <>
-      <div className="lg:w-[80%] mb-5 text-white h-full">
+     { loading ? <Loading/> :  <div className="lg:w-[80%] mb-5 text-white h-full">
         {/* Header Section */}
         <header className=" py-10">
           <h1 className="md:text-4xl text-3xl font-bold">My AI Agent</h1>
         </header>
-        <div className=" grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-2">
-          <div className="bg-darkprimary rounded-lg shadow-lg p-4  border-[1px] border-darksecondary hover:border-1 flex flex-col items-center gap-5 cursor-pointer">
+        <div className=" grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-2">
+          {currentPage == 1&&<div className="bg-darkprimary rounded-lg shadow-lg p-4 border-[1px] border-darksecondary hover:border-1 flex flex-col items-center gap-5 cursor-pointer">
 
             <NavLink to="/Discover" className="h-16 w-16 flex items-center justify-center rounded-full bg-darksecondary">
               <HiOutlinePlus  className="text-3xl"/>
@@ -120,23 +98,18 @@ function MyAIAgent() {
               )
             }
 
-          </div>
-          {currentCards.map((cardData, index) => (
-          <NavLink to="/ai-agent" state={{
-            image: cardData.image,
-            title : cardData.title,
-            description : cardData.description,
-            owner : cardData.owner,
-            modeProvider : cardData.modeProvider,
-            modeName : cardData.modeName,
-            created : cardData.created
+          </div>}
+          {currentAgents.map((cardData, index) => (
+          <NavLink to="/Discover/ai-agent" state={{
+            id : cardData._id,
+            href : window.location.href
           }
           }>
             <Card
             key={index}
-            image={cardData.image}
-            title={cardData.title}
-            description={cardData.description}
+            image={`https://psynova.s3.ap-southeast-1.amazonaws.com/model/${cardData?.modeProvider.toLowerCase()}.png`}
+            name={cardData.name}
+            introduction={cardData.introduction}
             owner={cardData.owner}
             modeProvider={cardData.modeProvider}
             modeName={cardData.modeName}
@@ -146,9 +119,9 @@ function MyAIAgent() {
           
         ))}
         </div>
-        <Stack spacing={2} className="mt-8 items-center">
+        {agents.length > 0&&<Stack spacing={2} className={`mt-8 items-center`}>
         <Pagination
-          count={Math.ceil(cards.length / itemsPerPage)}
+          count={Math.ceil(agents.length / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
           variant="outlined"
@@ -172,9 +145,8 @@ function MyAIAgent() {
             },
           }}
         />
-      </Stack>
-        
-      </div>
+      </Stack> }
+      </div>}
     </>
   );
 }
