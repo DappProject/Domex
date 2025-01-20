@@ -15,7 +15,7 @@ const Loader = ({ onLoaded }) => {
     // Animate loader text and fade out
     tl.to(textRef.current, {
       y: 0,
-      opacity: 1,
+      opacity: 0,
       duration: 0.5,
       ease: "power3.out",
     })
@@ -44,7 +44,7 @@ const Loader = ({ onLoaded }) => {
     >
       <h1
         ref={textRef}
-        className="text-7xl font-bold mb-4 opacity-0"
+        className="text-7xl text-white font-bold mb-4 opacity-0"
         style={{
           fontFamily: "Creepster",
           fontWeight: 400,
@@ -52,9 +52,7 @@ const Loader = ({ onLoaded }) => {
       >
         DOMEX
       </h1>
-      <p className="text-xl text-center max-w-2xl">
-        Welcome. We've built a powerful tool to bring your Web3 ideas to life.
-      </p>
+    
     </div>
   );
 };
