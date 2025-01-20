@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { IoChevronBack } from "react-icons/io5";
 import { ApiBackendRequest } from "../axios/BackendRequest";
+import { useNavigate } from "react-router-dom";
 const api_url = import.meta.env.API_URL;
 
 function CreateAIAgent() {
+  const navigate = useNavigate()
   const [selectedProvider, setSelectedProvider] = useState("");
   const [validation, setValidation] = useState(false);
   const [data, setData] = useState({
@@ -45,7 +47,9 @@ function CreateAIAgent() {
     e.preventDefault()
     ApiBackendRequest(`https://domex-mw1q.onrender.com/agent`, data)
     .then((res)=>{
-      console.log(res)
+      if(res.data.statusCode == 200){
+        navigate("/Discover/my-agent")
+      }
     })
 
   }
@@ -85,8 +89,8 @@ function CreateAIAgent() {
                     : "max-h-0 opacity-0"
                 }`}
               >
-                <p className="text-red-500 mt-[-5px] ms-[10px] text-sm">
-                  This field must contain between 3 and 25 characters.
+                <p className="text-red-500 mt-[-3px] ms-[10px] text-sm">
+                  {data.name.length == 0 ? 'This field is Required' : 'This field must contain between 3 and 25 characters.'}
                 </p>
               </div>
             </div>
@@ -182,10 +186,8 @@ function CreateAIAgent() {
                 </div>
                 <div
                   className={`bg-darksecondary text-white rounded-lg p-4 border-[1px] border-darksecondary hover:border-primary duration-150 cursor-not-allowed`}
-                  // onClick={() => handleProviderSelect(provider.name)}
                 >
                   <div className="flex flex-col gap-2">
-                    {/* Render the icon for the provider here */}
                     <p className="flex items-center gap-2">
                       <input type="checkbox" className="size-4" disabled />
                       WebSocket
