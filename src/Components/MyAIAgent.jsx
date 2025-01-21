@@ -16,7 +16,7 @@ import AutohideSnackbar from "./SnackBar.jsx";
 
 function MyAIAgent() {
   const navigate = useNavigate()
-  const [isWalletConnected, setIsWalletConnected] = useState(false)
+  const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [loading, setLoading] = useState(false)
   const {isAccessToken} = useAccess();
 
@@ -32,6 +32,7 @@ const { connectWallet, publicKey, error } = useWallet();
   const location = useLocation()
   const {agentCreated} = location.state || false
   const {walletConnected} = location.state || false
+  const {agentPublished} = location.state || false
 
 
   useEffect(()=>{
@@ -51,6 +52,13 @@ const { connectWallet, publicKey, error } = useWallet();
         setOpen(false)
       }, 5000);
       }
+    if(agentPublished){
+      setSuccessMessage("Agent Published")
+      setOpen(true);
+      setTimeout(() => {
+        setOpen(false)
+      }, 5000);
+      }
 
     if(isAccessToken){
       fetch()
@@ -60,15 +68,14 @@ const { connectWallet, publicKey, error } = useWallet();
     }
     function fetch(){
       setLoading(true)
-      ApiGetBackendRequest(`https://domex-mw1q.onrender.com/agent`)
+      ApiGetBackendRequest(`https://domex-mw1q.onrender.com/agent/my`)
     .then((res)=>{
       if(res.data.statusCode == 200){
-        setAgents(res.data.data.results)
+        setAgents(res.data.data.agentData)
         setLoading(false)
       }
     })
     }
-     
   }, [isAccessToken])
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -151,10 +158,11 @@ const { connectWallet, publicKey, error } = useWallet();
             image={`https://psynova.s3.ap-southeast-1.amazonaws.com/model/${cardData?.modeProvider.toLowerCase()}.png`}
             name={cardData.name}
             introduction={cardData.introduction}
-            owner={cardData.owner}
+            owner={cardData.userId}
             modeProvider={cardData.modeProvider}
             modeName={cardData.modeName}
-            created={cardData.created}
+            createdAt={cardData.createdAt}
+            isPublic={cardData.isPublic}
           />
           </NavLink>
           

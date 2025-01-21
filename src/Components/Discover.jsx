@@ -17,14 +17,14 @@ function Discover() {
     const fetch = () =>{
       ApiGetBackendRequest(`https://domex-mw1q.onrender.com/agent`)
         .then((res)=>{
-          console.log(res.data)
+          // console.log(res.data)
           if(res.data.statusCode == 200){
             setAgents(res.data.data.results)
             setLoading(false)
           }
         })
     }
-
+    
     fetch()
   },[])
 
@@ -40,11 +40,12 @@ function Discover() {
     setCurrentPage(value);
   };
 
+ 
   return (
     <>
     {
       loading? <Loading/> : (
-        <div className="min-h-[100vh] min-w-[80%] mb-5 text-white ">
+        <div className="lg:w-[80%] mb-5 text-white ">
       {/* Header Section */}
       <header className=" py-10">
         <h1 className="sm:text-4xl text-2xl font-bold">Welcome to Domex</h1>
@@ -53,7 +54,7 @@ function Discover() {
         </p>  
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+      <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
         {/* Cards Section */}
         {currentAgents.map((cardData, index) => (
           <NavLink to="/Discover/ai-agent" state={{
@@ -62,14 +63,15 @@ function Discover() {
           }
           }>
             <Card
-            key={index}
             image={`https://psynova.s3.ap-southeast-1.amazonaws.com/model/${cardData?.modeProvider.toLowerCase()}.png`}
             name={cardData.name}
             introduction={cardData.introduction}
-            owner={cardData.owner}
+            owner={cardData.userId}
             modeProvider={cardData.modeProvider}
             modeName={cardData.modeName}
             created={cardData.created}
+            isPublic={cardData.isPublic}
+            createdAt={cardData.createdAt}
           />
           </NavLink>
           
