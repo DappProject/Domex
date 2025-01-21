@@ -5,20 +5,20 @@ function ChatboxApiSection() {
   return (
     <>
       <div className="h-full w-full space-y-3">
-        <div className="w-full p-2 rounded-lg bg-transparent border-[1px] border-zinc-700 flex justify-between items-center">
+        <div className="w-full md:p-2 p-1 rounded-lg bg-transparent border-[1px] border-zinc-700 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="bg-[#5796f2] rounded-lg px-2 py-1 text-sm">
               POST
             </div>
-            <h1>https://api.domex.ai/v1/chat/completions</h1>
+            <h1 className="xs:w-full w-36 md:text-base text-sm truncate">https://api.domex.ai/v1/chat/completions</h1>
           </div>
           <div>
             <IoCopyOutline />
           </div>
         </div>
-        <div className="h-full w-full flex items-center gap-2">
-          <div className="flex flex-col w-1/2 h-full gap-2">
-            <div className="h-[170px] border-[1px] border-zinc-700 rounded-lg p-2">
+        <div className="h-full w-full flex md:flex-row flex-col-reverse items-center gap-2">
+          <div className="flex flex-col md:max-w-1/2 w-full h-full gap-2">
+            <div className="min-h-[170px] border-[1px] border-zinc-700  rounded-lg p-1">
               <h1 className="mb-1">Request Body</h1>
               <p className="text-sm font-semibold">
                 message:{" "}
@@ -95,12 +95,13 @@ function ChatboxApiSection() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col w-1/2 h-full gap-2">
+          <div className="flex flex-col md:min-w-1/2 w-full h-full gap-2">
             <div className=" border-[1px] border-zinc-700 rounded-lg p-3 text-sm">
               <h1 className="mb-1 text-base">Request</h1>
 
               <p>const response = await</p>
-              <p>{"fetch('https://api.psynova.ai/v1/chat/completions'"}</p>
+              <p className="text-wrap">fetch{"("}'https://api.domex.ai/v1/
+                chat/completions'</p>
               <p>{"{"}</p>
               <div className="ms-5 space-y-1">
                 <p>method: 'POST',</p>
@@ -116,7 +117,7 @@ function ChatboxApiSection() {
                 <p className="flex items-center gap-2">
                   'agent_id':{" "}
                   <input
-                    className="h-8 w-44 py-1 px-2 outline-none bg-darksecondary rounded-lg"
+                    className="h-8 md:w-44 w-28 py-1 px-2 outline-none bg-darksecondary rounded-lg"
                     value={"cfb90bf0-ca62-4270-afb9-f2866b4a05ae"}
                   ></input>
                   ,
@@ -130,7 +131,7 @@ function ChatboxApiSection() {
               <div className="w-fit self-end bg-white text-black font-semibold py-2 px-4 rounded-3xl mt-2">Test it</div>
             </div>
 
-            <div className="h-[170px] border-[1px] border-zinc-700 rounded-lg p-2">
+            <div className="min-h-[170px] border-[1px] border-zinc-700 rounded-lg p-2">
               <h1 className="mb-1">Request Body</h1>
               <div className="h-full w-full flex items-center justify-center">
                 <p className="">No response found</p>

@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoChevronBack } from "react-icons/io5";
-import { ApiBackendRequest } from "../axios/BackendRequest";
+import {
+  ApiBackendRequest,
+  ApiGetBackendRequest,
+} from "../axios/BackendRequest";
 import { useNavigate } from "react-router-dom";
 import AutohideSnackbar from "./SnackBar";
 const api_url = import.meta.env.API_URL;
+import gpt from "../assets/openai.png";
+import gemma from "../assets/gemma.png";
+import meta from "../assets/meta.png";
 
 function CreateAIAgent() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [ModeProviders, setModeProviders] = useState([]);
+  const [ModeName, setModeName] = useState([]);
   const [selectedProvider, setSelectedProvider] = useState("");
   const [validation, setValidation] = useState(false);
   const [open, setOpen] = useState(false);
@@ -14,25 +22,34 @@ function CreateAIAgent() {
     name: "",
     introduction: "",
     modeProvider: "",
-    modeName: "V2.0",
+    modeName: "",
   });
 
-  const handleProviderSelect = (provider) => {
-    setData((prev) => ({ ...prev, modeProvider: provider }));
+  useEffect(() => {
+    ApiGetBackendRequest(
+      `https://domex-mw1q.onrender.com/agent/available`
+    ).then((res) => {
+      setModeProviders(res.data.data.aiData);
+    });
+  }, []);
+
+  const handleProviderSelect = (provider, name) => {
+    setData((prev) => ({ ...prev, [name]: provider }));
+    const selectedMode = ModeProviders.find((mode) => mode.name == provider);
+  
+    if (selectedMode) {
+      console.log(selectedMode.aimodels); 
+      setModeName(selectedMode.aimodels); 
+    } else {
+      console.warn("No matching mode found for the selected provider");
+      setModeName([]); 
+    }
   };
 
-  const Modeproviders = [
-    {
-      name: "META LLAMA",
-      src: "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
-    }, // Replace with actual icon
-    {
-      name: "GEMMA",
-      src: "https://psynova.s3.ap-southeast-1.amazonaws.com/model/gemma.png",
-    },
-  ];
-  const ModeName = [{ name: "V2.0", icon: "..." }];
-
+  const handleModeSelect = (mode, name)=>{
+    setData((prev) => ({...prev, [name] : mode}))
+  }
+  
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -44,21 +61,18 @@ function CreateAIAgent() {
     }
   };
 
-
-  const handlesubmit = (e)=>{
-    e.preventDefault()
-    ApiBackendRequest(`https://domex-mw1q.onrender.com/agent`, data)
-    .then((res)=>{
-      if(res.data.statusCode == 200){
-        navigate("/Discover/my-agent", {
-          state:{agentCreated : true}
-        })
-        
-
+  const handlesubmit = (e) => {
+    e.preventDefault();
+    ApiBackendRequest(`https://domex-mw1q.onrender.com/agent`, data).then(
+      (res) => {
+        if (res.data.statusCode == 200) {
+          navigate("/Discover/my-agent", {
+            state: { agentCreated: true },
+          });
+        }
       }
-    })
-
-  }
+    );
+  };
   return (
     <>
       <div className="w-full h-full mb-5 flex flex-col justify-center items-center text-white">
@@ -96,7 +110,9 @@ function CreateAIAgent() {
                 }`}
               >
                 <p className="text-red-500 mt-[-3px] ms-[10px] text-sm">
-                  {data.name.length == 0 ? 'This field is Required' : 'This field must contain between 3 and 25 characters.'}
+                  {data.name.length == 0
+                    ? "This field is Required"
+                    : "This field must contain between 3 and 25 characters."}
                 </p>
               </div>
             </div>
@@ -122,7 +138,7 @@ function CreateAIAgent() {
                 Mode Provider
               </label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {Modeproviders.map((provider) => (
+                {ModeProviders.map((provider) => (
                   <div
                     key={provider.name}
                     className={`bg-darksecondary text-white rounded-lg p-4 border-[1px] border-darksecondary hover:border-primary ${
@@ -130,11 +146,20 @@ function CreateAIAgent() {
                         ? "border-[1px] border-primary"
                         : "border-[1px] border-darksecondary "
                     } duration-150`}
-                    onClick={() => handleProviderSelect(provider.name)}
+                    onClick={() => handleProviderSelect(provider.name, "modeProvider")}
                   >
                     <div className="flex flex-col items-center justify-center gap-1">
                       {/* Render the icon for the provider here */}
-                      <img src={provider.src} alt="" className="h-8 w-8 " />
+                      {provider.name == "OPENAI" && (
+                        <img src={gpt} alt="" className="h-8" />
+                      )}
+                      {provider.name == "GEMMA" && (
+                        <img src={gemma} alt="" className="h-8 w-8 " />
+                      )}
+                      {provider.name == "LAMA" && (
+                        <img src={meta} alt="" className="h-8 w-8 " />
+                      )}
+
                       <span className="ml-2 sm:text-base text-xs text-nowrap">
                         {provider.name}
                       </span>
@@ -151,17 +176,17 @@ function CreateAIAgent() {
                 Mode Name
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {ModeName.map((provider) => (
+                {ModeName.map((mode, index) => (
                   <div
-                    key={provider.name}
-                    className={`bg-darksecondary text-white rounded-lg p-4 border-[1px]  border-primary duration-150`}
-                    // onClick={() => handleProviderSelect(provider.name)}
+                  key={index}
+                  className={`bg-darksecondary text-white rounded-lg p-4 border-[1px] hover:border-primary duration-150 ${data.modeName == mode? " border-primary" : "border-darksecondary"}`}
+                  onClick={() => handleModeSelect(mode, "modeName")}
                   >
                     <div className="flex items-center justify-center">
-                      {/* Render the icon for the provider here */}
-                      <span className="ml-2 sm:text-base text-xs text-nowrap">
-                        {provider.name}
-                      </span>
+                      <p className="ml-2 sm:text-base text-xs text-nowrap">
+                    {/* {console.log(mode + "mode")} */}
+                        {mode}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -210,9 +235,12 @@ function CreateAIAgent() {
                 Validate configurations and confirm to activate your AI agent.
               </h4>
               <button
-              type="submit"
-                className={`bg-primary hover:bg-secondary duration-200 px-4 py-2 text-black rounded-3xl font-medium ${data.name.length <= 2 && "cursor-not-allowed bg-white hover:bg-white text-zinc-500"}`}
-                disabled ={data.name.length <= 2 ? true : false}
+                type="submit"
+                className={`bg-primary hover:bg-secondary duration-200 px-4 py-2 text-black rounded-3xl font-medium ${
+                  data.name.length <= 2 &&
+                  "cursor-not-allowed bg-white hover:bg-white text-zinc-500"
+                }`}
+                disabled={data.name.length <= 2 ? true : false}
               >
                 Create AI Agent
               </button>
