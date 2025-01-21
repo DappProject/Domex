@@ -36,7 +36,7 @@ function CreateAIAgent() {
 //   };
 
   
-  const ModeName = [{ name: "V2.0", icon: "..." }];
+  // const ModeName = [{ name: "V2.0", icon: "..." }];
   const validateForm = () => {
     const newErrors = {};
     if (!data.name || data.name.length < 3) {
