@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { NavLink } from "react-router-dom";
+import { ApiGetBackendRequest } from "../axios/BackendRequest";
+import Loading from "./Loading";
 
 function Discover() {
+  const [loading, setLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [agents, setAgents] = useState([])
   const cards = [
     {
       image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/gemma.png",
@@ -124,14 +129,29 @@ function Discover() {
       created: "4 hours ago",
     },
   ];
+  
+  useEffect(()=>{
+    setLoading(true)
+    const fetch = () =>{
+      ApiGetBackendRequest(`https://domex-mw1q.onrender.com/agent`)
+        .then((res)=>{
+          console.log(res.data)
+          if(res.data.statusCode == 200){
+            setAgents(res.data.data.results)
+            setLoading(false)
+          }
+        })
+    }
 
-  const [currentPage, setCurrentPage] = useState(1);
+    fetch()
+  },[])
+
   const itemsPerPage = 8; // Number of cards per page
 
   // Calculate start and end index for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentCards = cards.slice(startIndex, endIndex);
+  const currentAgents = agents?.slice(startIndex, endIndex);
 
   // Handle pagination change
   const handlePageChange = (event, value) => {
@@ -139,7 +159,10 @@ function Discover() {
   };
 
   return (
-    <div className="min-h-[100vh] mb-5 text-white ">
+    <>
+    {
+      loading? <Loading/> : (
+        <div className="min-h-[100vh] min-w-[80%] mb-5 text-white ">
       {/* Header Section */}
       <header className=" py-10">
         <h1 className="sm:text-4xl text-2xl font-bold">Welcome to Domex</h1>
@@ -148,24 +171,19 @@ function Discover() {
         </p>  
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
         {/* Cards Section */}
-        {currentCards.map((cardData, index) => (
+        {currentAgents.map((cardData, index) => (
           <NavLink to="/Discover/ai-agent" state={{
-            image: cardData.image,
-            title : cardData.title,
-            description : cardData.description,
-            owner : cardData.owner,
-            modeProvider : cardData.modeProvider,
-            modeName : cardData.modeName,
-            created : cardData.created
+            id : cardData._id,
+            href : window.location.href
           }
           }>
             <Card
             key={index}
-            image={cardData.image}
-            title={cardData.title}
-            description={cardData.description}
+            image={`https://psynova.s3.ap-southeast-1.amazonaws.com/model/${cardData?.modeProvider.toLowerCase()}.png`}
+            name={cardData.name}
+            introduction={cardData.introduction}
             owner={cardData.owner}
             modeProvider={cardData.modeProvider}
             modeName={cardData.modeName}
@@ -177,7 +195,7 @@ function Discover() {
       </div>
 
       {/* Pagination */}
-      <Stack spacing={2} className="mt-8 items-center">
+      {agents.length > 0&&<Stack spacing={2} className="mt-8 items-center">
         <Pagination
           count={Math.ceil(cards.length / itemsPerPage)}
           page={currentPage}
@@ -203,8 +221,11 @@ function Discover() {
             },
           }}
         />
-      </Stack>
+      </Stack>}
     </div>
+      )
+    }
+    </>
   );
 }
 

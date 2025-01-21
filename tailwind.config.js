@@ -21,7 +21,7 @@ export default {
         secondary: "#ADDAFC",
         primary1: "#3d6fad",
         borderprimary:'#01192b',
-        darkprimary : "#101010",
+        darkprimary : "#171717",
         darksecondary : "#262626",
         orangeprimary : "#FF5D00",
         orangesecondary : "#CC4A00"

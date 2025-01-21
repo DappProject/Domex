@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import MyDrawer from "./Drawer.jsx";
@@ -6,23 +6,36 @@ import axios from "axios";
 import useAccess from "../context/accessTokenContext.js";
 import { CiWallet } from "react-icons/ci";
 import { AiFillFire } from "react-icons/ai";
+
 import { Connection, PublicKey } from "@solana/web3.js";
+
+import CountdownTimer from "./CountDownTimer.jsx";
+
 const api_url = import.meta.env.API_URL
 import { useWallet } from "../axios/WalletContext.jsx";
 
 function Navbar() {
   const navigate = useNavigate()
  const {isAccessToken} = useAccess()
+
  const[loading, setLoading] = useState(false)
-const { connectWallet, publicKey, error } = useWallet();
+
+ const [time, setTime] = useState(12 * 60 * 60);
+//  const[loading, setLoading] = useState(false)
+
 
 console.log(publicKey,"in navbar")
   const handleConnetWalletClick = async () =>{
 
 
+
     await connectWallet(); // Use if using context
     console.log(publicKey)
     setLoading(true)
+
+  const handleConnetWalletClick = async () =>{
+    // setLoading(true)
+
     try {
       console.log(publicKey,"inside the function")
       const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/nonce`, {publicKey})
@@ -33,9 +46,15 @@ console.log(publicKey,"in navbar")
           const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/verify-nonce`, {publicKey})
           console.log(response)
           if(response.data.statusCode == 200){
-            setLoading(false)
+            // setLoading(false)
             localStorage.setItem("accessToken" , response.data.data.token)
-            navigate(document.referrer)
+            window.location.href = '/Discover/my-agent'
+            navigate("/Discover/my-agent",{
+              state :{
+                walletConnected: true
+              }
+            })
+            
           }
         } catch (error) {
           console.log(error)
@@ -52,13 +71,38 @@ console.log(publicKey,"in navbar")
       console.log('called')
         localStorage.removeItem("accessToken")
       window.location.href = "/Discover/my-agent"
+      navigate("/Discover/my-agent",{
+        state :{
+          walletConnected: false
+        }
+      })
     } catch (error) {
       console.log(error)
     }
   }
 
 
+  useEffect(() => {
 
+    const timer = setInterval(() => {
+      setTime((prevTime) => {
+        if (prevTime <= 0) {
+          clearInterval(timer); 
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (seconds) => {
+    const hrs = String(Math.floor(seconds / 3600)).padStart(2, "0");
+    const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
+    const secs = String(seconds % 60).padStart(2, "0");
+    return `${hrs}:${mins}:${secs}`;
+  };
 
   return (
     <>
@@ -66,7 +110,7 @@ console.log(publicKey,"in navbar")
 
         <div className="w-[80%] md:flex hidden justify-between items-center">
           <div className="md:w-1/3 flex justify-between items-center">
-            <NavLink className="text-2xl font-semibold" to={"/"}>Domex</NavLink>
+            <NavLink className="text-2xl font-semibold  bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent" to={"/"}>Domex.</NavLink>
             <div className="flex items-center gap-2">
               <NavLink
                 className={({ isActive }) =>
@@ -95,7 +139,7 @@ console.log(publicKey,"in navbar")
           {
             isAccessToken? (
               <button className="bg-darksecondary px-8 py-2 rounded-3xl text-nowrap flex items-center gap-1">
-              Credits : <AiFillFire className="text-primary text-lg"/> 99
+              Test Credits  Enabled: <CountdownTimer/>
             </button>
             ) : (
               <button className="bg-darksecondary px-8 py-2 rounded-3xl text-nowrap">

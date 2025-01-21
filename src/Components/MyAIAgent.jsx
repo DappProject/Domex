@@ -1,23 +1,57 @@
 import React, { useEffect, useState } from "react";
 import { HiOutlinePlus } from "react-icons/hi2";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Card from "./Card.jsx";
-
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
 import useAccess from "../context/accessTokenContext.js";
 import { ApiGetBackendRequest } from "../axios/BackendRequest.js";
 import Loading from "./Loading.jsx";
+
 import { useWallet } from "../axios/WalletContext.jsx";
+
+import AutohideSnackbar from "./SnackBar.jsx";
+
+
 function MyAIAgent() {
   const navigate = useNavigate()
+  const [isWalletConnected, setIsWalletConnected] = useState(false)
   const [loading, setLoading] = useState(false)
   const {isAccessToken} = useAccess();
-  const [agents, setAgents] = useState([])
+
+ 
 const { connectWallet, publicKey, error } = useWallet();
 
+
+  
+  const [open, setOpen] = useState(false);
+  const [agents, setAgents] = useState([])
+  const [successMessage, setSuccessMessage] = useState()
+  
+  const location = useLocation()
+  const {agentCreated} = location.state || false
+  const {walletConnected} = location.state || false
+
+
   useEffect(()=>{
+    setIsWalletConnected(walletConnected)
+    if(agentCreated){
+      setSuccessMessage("Agent Created SuccessFully")
+      setOpen(true);
+
+      setTimeout(() => {
+        setOpen(false)
+      }, 5000);
+      }
+    if(isWalletConnected){
+      setSuccessMessage("Wallet Connected")
+      setOpen(true);
+      setTimeout(() => {
+        setOpen(false)
+      }, 5000);
+      }
+
     if(isAccessToken){
       fetch()
     } else {
@@ -79,6 +113,11 @@ const { connectWallet, publicKey, error } = useWallet();
   return (
     <>
      { loading ? <Loading/> :  <div className="lg:w-[80%] mb-5 text-white h-full">
+        <AutohideSnackbar
+          open={open}
+          message={successMessage}
+          variant={"success"}
+        />
         {/* Header Section */}
         <header className=" py-10">
           <h1 className="md:text-4xl text-3xl font-bold">My AI Agent</h1>
@@ -121,7 +160,7 @@ const { connectWallet, publicKey, error } = useWallet();
           
         ))}
         </div>
-        {agents.length > 0&&<Stack spacing={2} className={`mt-8 items-center`}>
+        {agents.length > 0 &&<Stack spacing={2} className={`mt-8 items-center`}>
         <Pagination
           count={Math.ceil(agents.length / itemsPerPage)}
           page={currentPage}

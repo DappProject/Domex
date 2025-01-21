@@ -10,9 +10,12 @@ import {
 } from "../axios/BackendRequest";
 import Loading from "./Loading";
 import ChatLoader from "./ChatLoader";
+import ChatboxApiSection from "./ChatboxApiSection";
+import ChatboxSDKSection from "./ChatboxSDKSection";
 
 function AiAgent() {
   const [loading, setLoading] = useState(false);
+  const [modechange, setModeChange] = useState("chat");
   const [chatLoading, setChatLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [throughMyAgent, setThroughMyAgent] = useState();
@@ -56,6 +59,9 @@ function AiAgent() {
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text).then(() => {
       setOpen(true);
+      setTimeout(() => {
+        setOpen(false)
+      }, 5000);
     });
   };
 
@@ -84,61 +90,56 @@ function AiAgent() {
     setContent(value);
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setContent("");
-  //   ApiBackendRequest("https://domex-mw1q.onrender.com/chat/query", {
-  //     chatId,
-  //     content,
-  //   }).then((res) => {
-  //     if (res.data.statusCode == 201) {
-  //       console.log({ sender: content, receiver: res.data.data });
-  //       setChats((prev) => [
-  //         ...prev,
-  //         { sender: content, receiver: res.data.data },
-  //       ]);
-  //     }
-  //   });
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    setChatLoading(true)
-  
+    setChatLoading(true);
+
     setChats((prev) => [...prev, { sender: content, receiver: null }]);
-  
+
     setContent("");
-  
+
     ApiBackendRequest("https://domex-mw1q.onrender.com/chat/query", {
       chatId,
       content,
     }).then((res) => {
       if (res.data.statusCode === 201) {
-        
         setChats((prev) => {
           const updatedChats = [...prev];
-          
+
           updatedChats[updatedChats.length - 1] = {
             ...updatedChats[updatedChats.length - 1],
             receiver: res.data.data,
           };
-            setChatLoading(false)
+          setChatLoading(false);
           return updatedChats;
         });
       }
     });
   };
-  
+
+  const handlePublishClick = ()=>{
+    ApiBackendRequest(`https://domex-mw1q.onrender.com/agent/publish`, {agentId : agentData._id})
+    .then((res)=>{
+      if(res.data.statusCode == 200){
+        
+      }
+    })
+  }
+
+  const handleclick = (text) => {
+    setModeChange(text);
+  };
 
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
-        <div className="lg:w-[80%] w-[100%] h-full pt-14 text-white">
+        <div className="lg:w-[80%] w-[100%] h-full text-white">
           <AutohideSnackbar
             open={open}
             message={"Copy to Clipboard successfully"}
+            variant={"success"}
           />
           <button
             className="flex items-center gap-2 mb-1 group hover:text-primary duration-150"
@@ -149,7 +150,7 @@ function AiAgent() {
             </span>
             Back
           </button>
-          <div className="min-w-full min-h-[90vh] flex md:flex-row flex-col-reverse justify-between md:gap-0 gap-2">
+          <div className="min-w-full min-h-[80vh] flex md:flex-row flex-col-reverse justify-between md:gap-0 gap-2">
             <div className="md:w-[35%] w-full rounded-xl bg-gradient-to-tr from-darksecondary to-[#2c6795] p-5 space-y-5">
               <div className=" space-y-5">
                 <img
@@ -162,7 +163,7 @@ function AiAgent() {
                     {agentData?.name}
                   </h1>
                   <p className="text-sm text-zinc-400 ">
-                    {agentData?.intoduction}
+                    {agentData?.introduction}
                   </p>
                 </div>
               </div>
@@ -220,7 +221,7 @@ function AiAgent() {
                       </span>
                     </span>
                     {throughMyAgent && (
-                      <button className="px-3 py-1 rounded-3xl text-black bg-secondary hover:bg-primary duration-150">
+                      <button className="px-3 py-1 rounded-3xl text-black bg-secondary hover:bg-primary duration-150" onClick={()=>{handlePublishClick()}}>
                         Public
                       </button>
                     )}
@@ -244,7 +245,7 @@ function AiAgent() {
                   </div>
                 )}
               </div>
-              <div className=" text-sm space-y-2">
+              <div className="text-sm space-y-2">
                 <p className="flex items-center md:text-base text-sm">
                   Mode Provider: &nbsp;
                   <img
@@ -270,9 +271,53 @@ function AiAgent() {
                 </p>
               </div>
             </div>
-            <div className="md:w-[64%] min-h-[90vh] h-full w-full rounded-xl bg-darkprimary p-5">
-              <div className="min-h-[68%] h-[58vh]  w-full bg-transparent mb-2">
-                <div class="flex flex-col h-full overflow-y-auto">
+            <div className="md:w-[64%] min-h-[80vh] h-full w-full rounded-xl bg-darkprimary p-5">
+              {throughMyAgent&&<div className="w-full flex justify-center items-center self-center mb-1">
+                <div className="w-[55%] h-12 bg-black rounded-full flex items-center p-1 gap-1 cursor-pointer">
+                  <div
+                    className={`w-1/3 h-full  rounded-full text-lg flex justify-center items-center hover:bg-primary hover:text-black ${
+                      modechange == "chat"
+                        ? "bg-primary text-black"
+                        : " text-white bg-none"
+                    } duration-150`}
+                    onClick={() => {
+                      handleclick("chat");
+                    }}
+                  >
+                    Chat
+                  </div>
+                  <div
+                    className={`w-1/3 h-full  rounded-full text-lg flex justify-center items-center hover:bg-primary hover:text-black ${
+                      modechange == "api"
+                        ? "bg-primary text-black"
+                        : "text-white bg-none"
+                    } duration-150`}
+                    onClick={() => {
+                      handleclick("api");
+                    }}
+                  >
+                    APIs
+                  </div>
+                  <div
+                    className={`w-1/3 h-full  rounded-full  text-lg flex justify-center items-center hover:bg-primary hover:text-black  ${
+                      modechange == "sdk"
+                        ? "bg-primary text-black"
+                        : "text-white bg-none"
+                    } duration-150`}
+                    onClick={() => {
+                      handleclick("sdk");
+                    }}
+                  >
+                    SDK
+                  </div>
+                </div>
+              </div>}
+              <div className=" min-h-[58vh] w-full bg-transparent mb-2">
+                <div
+                  className={`flex flex-col h-full overflow-y-auto ${
+                    modechange == "chat" ? "block" : "hidden"
+                  }`}
+                >
                   {chats?.map((chat) => (
                     <>
                       <div class="flex justify-end">
@@ -287,15 +332,27 @@ function AiAgent() {
                           </div>
                         </div>
                       </div>
-                      {chatLoading ? <ChatLoader/> : <div className="text-white rounded-lg max-w-xs">
-                        <p className="text-sm text-zinc-400">Agent</p>
-                        {chat.receiver}
-                      </div>}
-                      </> 
+                      {chatLoading ? (
+                        <ChatLoader />
+                      ) : (
+                        <div className="text-white rounded-lg max-w-xs">
+                          <p className="text-sm text-zinc-400">Agent</p>
+                          {chat.receiver}
+                        </div>
+                      )}
+                    </>
                   ))}
                 </div>
+                {throughMyAgent && <>{
+                  (modechange == "api") &&<ChatboxApiSection/>
+                }
+                {
+                  (modechange == "sdk") && <ChatboxSDKSection/>
+                }
+                </>
+                }
               </div>
-              <form action="" onSubmit={handleSubmit}>
+              <form action="" onSubmit={handleSubmit} className={`${modechange == "chat" ? "block" : "hidden"}`}>
                 <div className="w-full flex justify-between items-center bg-darksecondary md:text-base text-sm py-3 px-3 border-[1px] border-zinc-700 rounded-lg static bottom-10 text-zinc-400">
                   <input
                     type="text"
