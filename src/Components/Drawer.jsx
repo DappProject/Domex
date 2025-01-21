@@ -11,46 +11,21 @@ import { AiFillFire } from "react-icons/ai";
 import { CiWallet } from "react-icons/ci";
 const api_url = import.meta.env.API_URL;
 import { useWallet } from "../axios/WalletContext.jsx";
-
+import {handleConnectWallet} from "../axios/ConnectUtils.js"
 
 export default function MyDrawer() {
   const navigate = useNavigate()
   const { isAccessToken } = useAccess();
   const [open, setOpen] = React.useState(false);
+   const [loading, setLoading] = React.useState(false);
  const { connectWallet, publicKey, error } = useWallet();
-  const handleConnetWalletClick = async () => {
-    await connectWallet(); // Use if using context
-    console.log(publicKey)
-    try {
-      const response = await axios.post(
-        `https://domex-mw1q.onrender.com/auth/user/nonce`,
-        {publicKey}
-      );
-      if (response.data.nonce) {
-        publicKey.nonce = response.data.data.nonce;
-
-        try {
-          const response = await axios.post(
-            `https://domex-mw1q.onrender.com/auth/user/verify-nonce`,
-            {publicKey}
-          );
-          console.log(response);
-          if (response.data.statusCode == 200) {
-            localStorage.setItem("accessToken", response.data.data.token);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+ 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
-
+ const handleConnetWalletClick = async () => {
+    handleConnectWallet(connectWallet,navigate,setLoading)
+  };
   const handleDiscnnectWalletClick =  async () => {
     try {
       
@@ -107,7 +82,7 @@ export default function MyDrawer() {
               className="w-full bg-primary hover:bg-secondary duration-200 px-4 py-2 sm:text-base text-sm text-black rounded-3xl font-medium"
               onClick={() => handleConnetWalletClick()}
             >
-              Connect Wallet
+             {loading ? "Connecting..." : "Connect Wallet"}
             </button>
           )}
           {isAccessToken ? (

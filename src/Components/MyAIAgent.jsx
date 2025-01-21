@@ -10,7 +10,7 @@ import { ApiGetBackendRequest } from "../axios/BackendRequest.js";
 import Loading from "./Loading.jsx";
 
 import { useWallet } from "../axios/WalletContext.jsx";
-
+import {handleConnectWallet} from "../axios/ConnectUtils.js"
 import AutohideSnackbar from "./SnackBar.jsx";
 
 
@@ -19,16 +19,10 @@ function MyAIAgent() {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [loading, setLoading] = useState(false)
   const {isAccessToken} = useAccess();
-
- 
-const { connectWallet, publicKey, error } = useWallet();
-
-
-  
+ const { connectWallet, publicKey, error } = useWallet();
   const [open, setOpen] = useState(false);
   const [agents, setAgents] = useState([])
   const [successMessage, setSuccessMessage] = useState()
-  
   const location = useLocation()
   const {agentCreated} = location.state || false
   const {walletConnected} = location.state || false
@@ -92,30 +86,10 @@ const { connectWallet, publicKey, error } = useWallet();
     };
 
 
-    const handleConnetWalletClick = async () =>{
 
-      await connectWallet(); // Use if using context
-      console.log(publicKey)
-      try {
-        const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/nonce`, {publicKey})
-        if(response.data.statusCode == 200){
-          publicKey.nonce = response.data.data.nonce
-  
-          try {
-            const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/verify-nonce`, {publicKey})
-            console.log(response)
-            if(response.data.statusCode == 200){
-              localStorage.setItem("accessToken" , response.data.data.token)
-              navigate("/Discover/my-agent")
-            }
-          } catch (error) {
-            console.log(error)
-          }
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
+      const handleConnetWalletClick = async () => {
+         handleConnectWallet(connectWallet,navigate,setLoading)
+       };
 
   return (
     <>
@@ -142,19 +116,19 @@ const { connectWallet, publicKey, error } = useWallet();
               isAccessToken ? (
                 <NavLink to="/Discover/create-agent" className="bg-primary w-full hover:bg-secondary duration-200 px-4 py-2 text-black rounded-3xl font-medium text-center">Create Now</NavLink>
               ) : (
-                <button className="bg-primary w-full hover:bg-secondary duration-200 px-4 py-2 text-black rounded-3xl font-medium" onClick={()=>{handleConnetWalletClick()}}>Connect Wallet</button>
+                <button className="bg-primary w-full hover:bg-secondary duration-200 px-4 py-2 text-black rounded-3xl font-medium" onClick={()=>{handleConnetWalletClick()}}> {loading ? "Connecting..." : "Connect Wallet"}</button>
               )
             }
 
           </div>}
           {currentAgents.map((cardData, index) => (
-          <NavLink to="/Discover/ai-agent" state={{
+          <NavLink to="/Discover/ai-agent" key={index} state={{
             id : cardData._id,
             href : window.location.href
           }
           }>
             <Card
-            key={index}
+            
             image={`https://psynova.s3.ap-southeast-1.amazonaws.com/model/${cardData?.modeProvider.toLowerCase()}.png`}
             name={cardData.name}
             introduction={cardData.introduction}
