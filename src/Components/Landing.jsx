@@ -14,7 +14,28 @@ import MyComponent from "./MyComponent";
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-
+  // 
+  //   if (!isLoading) {
+  //     // GSAP Timeline for Navbar Animation
+  //     const tl = gsap.timeline();
+  //     tl.fromTo(
+  //       ".logo",
+  //       { y: -30, opacity: 0 },
+  //       { y: 0, opacity: 1, duration: 0.8, ease: "bounce.out" }
+  //     )
+  //       .fromTo(
+  //         ".menu-item",
+  //         { y: -20, opacity: 0 },
+  //         { y: 0, opacity: 1, stagger: 0.2, duration: 0.6 },
+  //         "-=0.5"
+  //       )
+  //       .fromTo(
+  //         ".cta-button",
+  //         { scale: 0.8, opacity: 0 },
+  //         { scale: 1, opacity: 1, duration: 0.5 }
+  //       );
+  //   }
+  // }, [isLoading]);
 
   const handleLoaderComplete = () => {
     setIsLoading(false);
@@ -47,7 +68,7 @@ const Landing = () => {
                   Domex.
                 </h1>
               </div>
-              <div className=" border-2 bg-[#0f0f0f87] border-[#0f0f0f] rounded-lg py-2 px-10 hidden md:flex space-x-8">
+              <div className= " border-2 bg-[#0f0f0f87] border-[#0f0f0f] rounded-lg py-2 px-10 hidden md:flex space-x-8">
                 {["Discover", "Features", "Create AI Agent", "FAQs"].map((item, index) => (
                   <Link
                     key={index}
@@ -58,39 +79,39 @@ const Landing = () => {
                   </Link>
                 ))}
               </div>
-              <MyComponent />
+              <MyComponent/>
             </nav>
             <div className="relative flex flex-col items-center justify-center h-screen text-center px-4">
-              <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent">
-                We're Domex.
-              </h1>
-              <p className="mt-4 text-sm sm:text-base md:text-lg lg:text-xl w-full sm:w-3/4 md:w-2/3 lg:w-1/2 text-gray-400">
-                Domex is your gateway to seamless virtual interactions. By connecting your wallet, you can easily create a personalized agent tailored to your needs.
-              </p>
-              <button
-                className="mt-6 border border-[#444444] px-4 sm:px-5 py-2 font-bold text-gray-300 rounded-md hover:from-white hover:to-blue-400 transition-all duration-300"
-                onClick={() => {
-                  navigate("/discover");
-                }}
-              >
-                Try Your Tool
-              </button>
-            </div>
+  <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent">
+    We're Domex.
+  </h1>
+  <p className="mt-4 text-sm sm:text-base md:text-lg lg:text-xl w-full sm:w-3/4 md:w-2/3 lg:w-1/2 text-gray-400">
+    Domex is your gateway to seamless virtual interactions. By connecting your wallet, you can easily create a personalized agent tailored to your needs. 
+  </p>
+  <button
+    className="mt-6 border border-[#444444] px-4 sm:px-5 py-2 font-bold text-gray-300 rounded-md hover:from-white hover:to-blue-400 transition-all duration-300"
+    onClick={() => {
+      navigate("/discover");
+    }}
+  >
+    Try Your Tool
+  </button>
+</div>
 
           </>
         )}
       </div>
       {!isLoading && (
         <>
-          {/* <ConnectWallet/> */}
+        {/* <ConnectWallet/> */}
           <OurFeatures className="z-50 px-4 sm:px-8" />
-          <Process />
-          <Faq className="z-50" />
-          <MainFooter />
-
+          <Process/>
+          <Faq className="z-50"/>
+     <MainFooter/>
+          
         </>
       )}
-
+     
     </>
   );
 };
