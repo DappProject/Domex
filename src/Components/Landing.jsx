@@ -9,6 +9,7 @@ import Faq from "./Faq";
 import ContactUs from "./ContactUs";
 import MainFooter from "./MainFooter";
 import Process from "./Process";
+import ConnectWallet from "./ConnectWallet";
 
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -127,6 +128,7 @@ const Landing = () => {
       </div>
       {!isLoading && (
         <>
+        {/* <ConnectWallet/> */}
           <OurFeatures className="z-50 px-4 sm:px-8" />
           
         </>

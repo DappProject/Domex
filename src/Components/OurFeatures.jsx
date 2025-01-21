@@ -60,7 +60,7 @@ const OurFeatures = () => {
             <div
               key={index}
               style={{
-                background: 'linear-gradient(45deg, black, #0d0d0d, black)',
+                background: 'linear-gradient(45deg, black, #101217, black)',
               }}
               className="text-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transform transition duration-300"
               onMouseEnter={() => setHoveredIndex(index)}
@@ -94,7 +94,7 @@ const OurFeatures = () => {
             <div
               key={index}
               style={{
-                background: 'linear-gradient(45deg, black, #0d0d0d, black)',
+                background: 'linear-gradient(145deg, black, #101217, black)',
               }}
               className="text-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transform transition duration-300"
               onMouseEnter={() => setHoveredIndex(index)}

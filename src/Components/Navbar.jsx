@@ -6,25 +6,31 @@ import axios from "axios";
 import useAccess from "../context/accessTokenContext.js";
 import { CiWallet } from "react-icons/ci";
 import { AiFillFire } from "react-icons/ai";
+import { Connection, PublicKey } from "@solana/web3.js";
 const api_url = import.meta.env.API_URL
+import { useWallet } from "../axios/WalletContext.jsx";
 
 function Navbar() {
   const navigate = useNavigate()
  const {isAccessToken} = useAccess()
  const[loading, setLoading] = useState(false)
+const { connectWallet, publicKey, error } = useWallet();
 
-
-  const publicKey = {publicKey : "djkndfvjhbdfsjkvbdfjkvhbdfb"}
-
+console.log(publicKey,"in navbar")
   const handleConnetWalletClick = async () =>{
+
+
+    await connectWallet(); // Use if using context
+    console.log(publicKey)
     setLoading(true)
     try {
-      const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/nonce`, publicKey)
+      console.log(publicKey,"inside the function")
+      const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/nonce`, {publicKey})
       if(response.data.statusCode == 200){
         publicKey.nonce = response.data.data.nonce
 
         try {
-          const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/verify-nonce`, publicKey)
+          const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/verify-nonce`, {publicKey})
           console.log(response)
           if(response.data.statusCode == 200){
             setLoading(false)

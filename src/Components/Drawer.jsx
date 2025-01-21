@@ -10,29 +10,27 @@ import useAccess from "../context/accessTokenContext";
 import { AiFillFire } from "react-icons/ai";
 import { CiWallet } from "react-icons/ci";
 const api_url = import.meta.env.API_URL;
-
+import { useWallet } from "../axios/WalletContext.jsx";
 export default function MyDrawer() {
   const navigate = useNavigate()
   const { isAccessToken } = useAccess();
   const [open, setOpen] = React.useState(false);
-  const publicKey = {
-    publicKey: "djkndfvjhbdfsjkvbdfjkvhbdfb",
-    nonce: "",
-  };
-
+ const { connectWallet, publicKey, error } = useWallet();
   const handleConnetWalletClick = async () => {
+    await connectWallet(); // Use if using context
+    console.log(publicKey)
     try {
       const response = await axios.post(
         `https://domex-mw1q.onrender.com/auth/user/nonce`,
-        publicKey
+        {publicKey}
       );
-      if (response.data.statusCode == 200) {
+      if (response.data.nonce) {
         publicKey.nonce = response.data.data.nonce;
 
         try {
           const response = await axios.post(
             `https://domex-mw1q.onrender.com/auth/user/verify-nonce`,
-            publicKey
+            {publicKey}
           );
           console.log(response);
           if (response.data.statusCode == 200) {
