@@ -4,6 +4,7 @@ export const connectToPhantomWallet = async () => {
        try {
          // Request connection to Phantom wallet
          const response = await window.solana.connect();
+         console.log(response.publicKey)
          return { publicKey: response.publicKey.toString(), error: null };
        } catch (err) {
          console.error("Failed to connect to Phantom wallet:", err);
