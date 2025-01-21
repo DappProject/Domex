@@ -5,7 +5,6 @@ import Footer from './Components/Footer.jsx'
 import { AccessProvider } from './context/accessTokenContext.js'
 import { WalletProvider } from './axios/WalletContext.jsx'
 
-
 function App() {
   const [isAccessToken, setIsAccessToken] = useState(false)
   
@@ -18,6 +17,7 @@ function App() {
 
   return (
     <>
+
     <WalletProvider>
 
       <AccessProvider value={{isAccessToken}}>

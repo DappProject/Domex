@@ -49,7 +49,7 @@ const MyComponent = () => {
         PaperProps={{
           sx: {
             backgroundColor: "black",
-            backgroundImage: "linear-gradient(to bottom, black, #1e3a8a)",
+            backgroundImage: "linear-gradient(to bottom, black, #030d2a)",
           },
         }}
       >
