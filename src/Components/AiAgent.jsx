@@ -12,6 +12,9 @@ import Loading from "./Loading";
 import ChatLoader from "./ChatLoader";
 import ChatboxApiSection from "./ChatboxApiSection";
 import ChatboxSDKSection from "./ChatboxSDKSection";
+import gpt from "../assets/openai.png";
+import gemma from "../assets/gemma.png";
+import meta from "../assets/meta.png";
 
 function AiAgent() {
   const [loading, setLoading] = useState(false);
@@ -25,6 +28,7 @@ function AiAgent() {
   const location = useLocation();
   const [agentData, setAgentData] = useState(location.state);
   const currentUrl = window.location.href;
+  const navigate = useNavigate()
 
   useEffect(() => {
     function fetch() {
@@ -60,7 +64,7 @@ function AiAgent() {
     navigator.clipboard.writeText(text).then(() => {
       setOpen(true);
       setTimeout(() => {
-        setOpen(false)
+        setOpen(false);
       }, 5000);
     });
   };
@@ -117,14 +121,17 @@ function AiAgent() {
     });
   };
 
-  const handlePublishClick = ()=>{
-    ApiBackendRequest(`https://domex-mw1q.onrender.com/agent/publish`, {agentId : agentData._id})
-    .then((res)=>{
-      if(res.data.statusCode == 200){
-        
+  const handlePublishClick = () => {
+    ApiBackendRequest(`https://domex-mw1q.onrender.com/agent/publish`, {
+      agentId: agentData._id,
+    }).then((res) => {
+      if (res.data.statusCode == 200) {
+        navigate("/Discover/my-agent", {
+          state: { agentPublished: true },
+        });
       }
-    })
-  }
+    });
+  };
 
   const handleclick = (text) => {
     setModeChange(text);
@@ -153,11 +160,28 @@ function AiAgent() {
           <div className="min-w-full min-h-[80vh] flex md:flex-row flex-col-reverse justify-between md:gap-0 gap-2">
             <div className="md:w-[35%] w-full rounded-xl bg-gradient-to-tr from-darksecondary to-[#2c6795] p-5 space-y-5">
               <div className=" space-y-5">
-                <img
-                  src={`https://psynova.s3.ap-southeast-1.amazonaws.com/model/${agentData?.modeProvider?.toLowerCase()}.png`}
-                  alt="logo"
-                  className="md:h-28 h-20 md:w-28 w-20 rounded-full"
-                />
+                {agentData.modeProvider == "OPENAI" && (
+                  <img
+                    src={gpt}
+                    alt={name}
+                    className="md:h-20 h-12 ms-[-14px]  rounded-full"
+                  />
+                )}
+                {agentData.modeProvider == "GEMMA" && (
+                  <img
+                    src={gemma}
+                    alt={name}
+                    className="md:h-28 h-20 md:w-28 w-20 rounded-full"
+                  />
+                )}
+                {agentData.modeProvider == "LAMA" && (
+                  <img
+                    src={meta}
+                    alt={name}
+                    className="md:h-28 h-20 md:w-28 w-20 rounded-full"
+                  />
+                )}
+
                 <div>
                   <h1 className="bg-gradient-to-r from-white to-[#478ec4] bg-clip-text text-transparent md:text-2xl text-xl font-bold">
                     {agentData?.name}
@@ -221,7 +245,14 @@ function AiAgent() {
                       </span>
                     </span>
                     {throughMyAgent && (
-                      <button className="px-3 py-1 rounded-3xl text-black bg-secondary hover:bg-primary duration-150" onClick={()=>{handlePublishClick()}}>
+                      <button
+                        className={`px-3 py-1 rounded-3xl text-black bg-secondary hover:bg-primary duration-150 ${
+                          agentData.isPublic ? "hidden" : "block"
+                        }`}
+                        onClick={() => {
+                          handlePublishClick();
+                        }}
+                      >
                         Public
                       </button>
                     )}
@@ -248,11 +279,27 @@ function AiAgent() {
               <div className="text-sm space-y-2">
                 <p className="flex items-center md:text-base text-sm">
                   Mode Provider: &nbsp;
-                  <img
-                    src={`https://psynova.s3.ap-southeast-1.amazonaws.com/model/${agentData?.modeProvider?.toLowerCase()}.png`}
-                    alt="logo"
-                    className="h-8 w-8 rounded-full"
-                  />{" "}
+                  {agentData.modeProvider == "OPENAI" && (
+                    <img
+                      src={gpt}
+                      alt={name}
+                      className="h-8 w-8 rounded-full"
+                    />
+                  )}
+                  {agentData.modeProvider == "GEMMA" && (
+                    <img
+                      src={gemma}
+                      alt={name}
+                      className="h-8 w-8 rounded-full"
+                    />
+                  )}
+                  {agentData.modeProvider == "LAMA" && (
+                    <img
+                      src={meta}
+                      alt={name}
+                      className="h-8 w-8 rounded-full"
+                    />
+                  )}{" "}
                   &nbsp;
                   {agentData?.modeProvider}
                 </p>
@@ -272,46 +319,48 @@ function AiAgent() {
               </div>
             </div>
             <div className="md:w-[64%] min-h-[80vh] h-full w-full rounded-xl bg-darkprimary p-5">
-              {throughMyAgent&&<div className="w-full flex justify-center items-center self-center mb-1">
-                <div className="w-[55%] h-12 bg-black rounded-full flex items-center p-1 gap-1 cursor-pointer">
-                  <div
-                    className={`w-1/3 h-full  rounded-full text-lg flex justify-center items-center hover:bg-primary hover:text-black ${
-                      modechange == "chat"
-                        ? "bg-primary text-black"
-                        : " text-white bg-none"
-                    } duration-150`}
-                    onClick={() => {
-                      handleclick("chat");
-                    }}
-                  >
-                    Chat
-                  </div>
-                  <div
-                    className={`w-1/3 h-full  rounded-full text-lg flex justify-center items-center hover:bg-primary hover:text-black ${
-                      modechange == "api"
-                        ? "bg-primary text-black"
-                        : "text-white bg-none"
-                    } duration-150`}
-                    onClick={() => {
-                      handleclick("api");
-                    }}
-                  >
-                    APIs
-                  </div>
-                  <div
-                    className={`w-1/3 h-full  rounded-full  text-lg flex justify-center items-center hover:bg-primary hover:text-black  ${
-                      modechange == "sdk"
-                        ? "bg-primary text-black"
-                        : "text-white bg-none"
-                    } duration-150`}
-                    onClick={() => {
-                      handleclick("sdk");
-                    }}
-                  >
-                    SDK
+              {throughMyAgent && (
+                <div className="w-full flex justify-center items-center self-center mb-1">
+                  <div className="md:w-[55%] w-full h-12 bg-black rounded-full flex items-center p-1 gap-1 cursor-pointer">
+                    <div
+                      className={`w-1/3 h-full rounded-full md:text-lg text-sm flex justify-center items-center hover:bg-primary hover:text-black ${
+                        modechange == "chat"
+                          ? "bg-primary text-black"
+                          : " text-white bg-none"
+                      } duration-150`}
+                      onClick={() => {
+                        handleclick("chat");
+                      }}
+                    >
+                      Chat
+                    </div>
+                    <div
+                      className={`w-1/3 h-full rounded-full md:text-lg text-sm flex justify-center items-center hover:bg-primary hover:text-black ${
+                        modechange == "api"
+                          ? "bg-primary text-black"
+                          : "text-white bg-none"
+                      } duration-150`}
+                      onClick={() => {
+                        handleclick("api");
+                      }}
+                    >
+                      APIs
+                    </div>
+                    <div
+                      className={`w-1/3 h-full rounded-full md:text-lg text-sm flex justify-center items-center hover:bg-primary hover:text-black  ${
+                        modechange == "sdk"
+                          ? "bg-primary text-black"
+                          : "text-white bg-none"
+                      } duration-150`}
+                      onClick={() => {
+                        handleclick("sdk");
+                      }}
+                    >
+                      SDK
+                    </div>
                   </div>
                 </div>
-              </div>}
+              )}
               <div className=" min-h-[58vh] w-full bg-transparent mb-2">
                 <div
                   className={`flex flex-col h-full overflow-y-auto ${
@@ -343,16 +392,18 @@ function AiAgent() {
                     </>
                   ))}
                 </div>
-                {throughMyAgent && <>{
-                  (modechange == "api") &&<ChatboxApiSection/>
-                }
-                {
-                  (modechange == "sdk") && <ChatboxSDKSection/>
-                }
-                </>
-                }
+                {throughMyAgent && (
+                  <>
+                    {modechange == "api" && <ChatboxApiSection />}
+                    {modechange == "sdk" && <ChatboxSDKSection />}
+                  </>
+                )}
               </div>
-              <form action="" onSubmit={handleSubmit} className={`${modechange == "chat" ? "block" : "hidden"}`}>
+              <form
+                action=""
+                onSubmit={handleSubmit}
+                className={`${modechange == "chat" ? "block" : "hidden"}`}
+              >
                 <div className="w-full flex justify-between items-center bg-darksecondary md:text-base text-sm py-3 px-3 border-[1px] border-zinc-700 rounded-lg static bottom-10 text-zinc-400">
                   <input
                     type="text"
