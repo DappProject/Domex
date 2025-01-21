@@ -56,13 +56,13 @@ function Discover() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
         {/* Cards Section */}
         {currentAgents.map((cardData, index) => (
-          <NavLink to="/Discover/ai-agent" state={{
+          <NavLink to="/Discover/ai-agent"  key={index} state={{
+           
             id : cardData._id,
             href : window.location.href
           }
           }>
             <Card
-            key={index}
             image={`https://psynova.s3.ap-southeast-1.amazonaws.com/model/${cardData?.modeProvider.toLowerCase()}.png`}
             name={cardData.name}
             introduction={cardData.introduction}

@@ -7,8 +7,10 @@ const api_url = import.meta.env.API_URL;
 
 function CreateAIAgent() {
   const navigate = useNavigate()
+  const [errors, setErrors] = useState({general:""});
   const [selectedProvider, setSelectedProvider] = useState("");
   const [validation, setValidation] = useState(false);
+  const [loading,setloading]=useState(false)
   const [open, setOpen] = useState(false);
   const [data, setData] = useState({
     name: "",
@@ -19,6 +21,7 @@ function CreateAIAgent() {
 
   const handleProviderSelect = (provider) => {
     setData((prev) => ({ ...prev, modeProvider: provider }));
+    setErrors((prev) => ({ ...prev, modeProvider: "",general:"" })); // Clear error on selection
   };
 
   const Modeproviders = [
@@ -32,32 +35,56 @@ function CreateAIAgent() {
     },
   ];
   const ModeName = [{ name: "V2.0", icon: "..." }];
-
+  const validateForm = () => {
+    const newErrors = {};
+    if (!data.name || data.name.length < 3) {
+      newErrors.name = "Agent Name must be at least 3 characters long.";
+    }
+    if (!data.introduction) {
+      newErrors.introduction = "Agent Introduction is required.";
+    }
+    if (!data.modeProvider) {
+      newErrors.modeProvider = "Please select a Mode Provider.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    if (name == "name") {
       setData((prev) => ({ ...prev, [name]: value }));
-    }
-    if (name == "introduction") {
-      setData((prev) => ({ ...prev, [name]: value }));
-    }
+      setErrors((prev) => ({ ...prev, [name]: "" })); // Clear error on input
   };
 
 
-  const handlesubmit = (e)=>{
+  const handlesubmit =async  (e)=>{
+    setloading(true)
     e.preventDefault()
-    ApiBackendRequest(`https://domex-mw1q.onrender.com/agent`, data)
-    .then((res)=>{
-      if(res.data.statusCode == 200){
-        navigate("/Discover/my-agent", {
-          state:{agentCreated : true}
-        })
-        
+        // Client-side validation
+        if (validateForm()) {
+          try {
+            const res = await ApiBackendRequest(`https://domex-mw1q.onrender.com/agent`, data);
+            if (res.data) {
+              navigate("/Discover/my-agent", {
+                state: { agentCreated: true },
+              });
+            }
 
-      }
-    })
-
+            if(res.isException){
+              setErrors({ general:res.exceptionMessage.message });
+              console.log(res.exceptionMessage.message)
+            }
+            setloading(false)
+            console.log(res)
+          } catch (error) {
+            console.log(error)
+            if (error.response && error.response.statusCode === 400) {
+              setErrors({ general: "Failed to create agent. Please check your inputs." });
+            }
+          }
+        }
+        setloading(false)
+console.log(errors.general)
   }
   return (
     <>
@@ -112,6 +139,7 @@ function CreateAIAgent() {
                 placeholder="Enter Introduction"
                 onChange={handleChange}
               />
+                 {errors.introduction && <p className="text-red-500 text-sm">{errors.introduction}</p>}
             </div>
 
             <div className="mb-4 flex flex-col gap-2">
@@ -142,6 +170,9 @@ function CreateAIAgent() {
                   </div>
                 ))}
               </div>
+              {errors.modeProvider && (
+              <p className="text-red-500 text-sm">{errors.modeProvider}</p>
+            )}
             </div>
             <div className="mb-4 flex flex-col gap-2">
               <label
@@ -206,6 +237,7 @@ function CreateAIAgent() {
               </div>
             </div>
             <div className="space-y-4">
+            {errors && <p className="text-red-500 text-sm">{errors.general}</p>}
               <h4 className="text-sm">
                 Validate configurations and confirm to activate your AI agent.
               </h4>
@@ -214,12 +246,19 @@ function CreateAIAgent() {
                 className={`bg-primary hover:bg-secondary duration-200 px-4 py-2 text-black rounded-3xl font-medium ${data.name.length <= 2 && "cursor-not-allowed bg-white hover:bg-white text-zinc-500"}`}
                 disabled ={data.name.length <= 2 ? true : false}
               >
-                Create AI Agent
+                {loading?"Loading...":"Create AI Agent"}
+                
               </button>
             </div>
           </form>
         </div>
       </div>
+      {/* <AutohideSnackbar
+        open={openSnackbar}
+        message={snackbarMessage}
+        onClose={() => setOpenSnackbar(false)}
+        variant={"error"}
+      /> */}
     </>
   );
 }

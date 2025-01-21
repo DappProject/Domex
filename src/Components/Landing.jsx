@@ -9,7 +9,6 @@ import Faq from "./Faq";
 import ContactUs from "./ContactUs";
 import MainFooter from "./MainFooter";
 import Process from "./Process";
-import ConnectWallet from "./ConnectWallet";
 
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -85,16 +84,7 @@ const Landing = () => {
               <div className="hidden md:block">
                 <button
                   className="cta-button border border-[#0f0f0f] px-4 sm:px-5 py-2 font-semibold text-gray-600 rounded-md hover:from-white hover:to-blue-400 transition-all duration-300"
-                  onMouseMove={(e) => {
-                    const button = e.target;
-                    const rect = button.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    button.style.background = `radial-gradient(circle at ${x - 250}px ${y}px, #74C0FA, #01192b)`;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.background = "none";
-                  }}
+                 
                 >
                   Try Your Tool
                 </button>
@@ -109,16 +99,7 @@ const Landing = () => {
               </p>
               <button
                 className="mt-6 border border-[#444444] px-4 sm:px-5 py-2 font-bold text-gray-400 rounded-md hover:from-white hover:to-blue-400 transition-all duration-300"
-                onMouseMove={(e) => {
-                  const button = e.target;
-                  const rect = button.getBoundingClientRect();
-                  const x = e.clientX - rect.left;
-                  const y = e.clientY - rect.top;
-                  button.style.background = `radial-gradient(circle at ${x - 250}px ${y}px, #4a7cbd , #01192b)`;
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.background = "none";
-                }}
+               
               >
                 Try Your Tool
               </button>
@@ -130,28 +111,13 @@ const Landing = () => {
         <>
         {/* <ConnectWallet/> */}
           <OurFeatures className="z-50 px-4 sm:px-8" />
-          
-        </>
-      )}
-      {!isLoading && (
-        <>
           <Process/>
-          
-        </>
-      )}
-      {!isLoading && (
-        <>
           <Faq className="z-50"/>
+     <MainFooter/>
           
         </>
       )}
      
-      {!isLoading && (
-        <>
-          <MainFooter/>
-          
-        </>
-      )}
     </>
   );
 };

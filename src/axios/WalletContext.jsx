@@ -11,6 +11,7 @@ export const WalletProvider = ({ children }) => {
     const { publicKey, error } = await connectToPhantomWallet();
     setPublicKey(publicKey);
     setError(error);
+    return { publicKey, error }; // Return value for immediate usage
   };
 console.log(publicKey,"in wallet context")
   return (
