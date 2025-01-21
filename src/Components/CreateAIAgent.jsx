@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { IoChevronBack } from "react-icons/io5";
 import { ApiBackendRequest } from "../axios/BackendRequest";
 import { useNavigate } from "react-router-dom";
+import AutohideSnackbar from "./SnackBar";
 const api_url = import.meta.env.API_URL;
 
 function CreateAIAgent() {
   const navigate = useNavigate()
   const [selectedProvider, setSelectedProvider] = useState("");
   const [validation, setValidation] = useState(false);
+  const [open, setOpen] = useState(false);
   const [data, setData] = useState({
     name: "",
     introduction: "",
@@ -48,7 +50,11 @@ function CreateAIAgent() {
     ApiBackendRequest(`https://domex-mw1q.onrender.com/agent`, data)
     .then((res)=>{
       if(res.data.statusCode == 200){
-        navigate("/Discover/my-agent")
+        navigate("/Discover/my-agent", {
+          state:{agentCreated : true}
+        })
+        
+
       }
     })
 
