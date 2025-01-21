@@ -46,7 +46,7 @@ function Navbar() {
         <div className="w-[80%] md:flex hidden justify-between items-center">
           <div className="md:w-1/3 flex justify-between items-center">
             <NavLink
-              className="text-2xl font-semibold  bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent"
+              className="text-3xl font-bold  bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent"
               to={"/"}
             >
               Domex.
