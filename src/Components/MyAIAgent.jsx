@@ -8,13 +8,21 @@ import axios from "axios";
 import useAccess from "../context/accessTokenContext.js";
 import { ApiGetBackendRequest } from "../axios/BackendRequest.js";
 import Loading from "./Loading.jsx";
+
+import { useWallet } from "../axios/WalletContext.jsx";
+
 import AutohideSnackbar from "./SnackBar.jsx";
+
 
 function MyAIAgent() {
   const navigate = useNavigate()
   const [isWalletConnected, setIsWalletConnected] = useState(false)
   const [loading, setLoading] = useState(false)
   const {isAccessToken} = useAccess();
+
+ 
+const { connectWallet, publicKey, error } = useWallet();
+
 
   
   const [open, setOpen] = useState(false);
@@ -24,6 +32,7 @@ function MyAIAgent() {
   const location = useLocation()
   const {agentCreated} = location.state || false
   const {walletConnected} = location.state || false
+
 
   useEffect(()=>{
     setIsWalletConnected(walletConnected)
@@ -75,16 +84,18 @@ function MyAIAgent() {
       setCurrentPage(value);
     };
 
-    const publicKey = {publicKey : "djkndfvjhbdfsjkvbdfjkvhbdfb"}
 
     const handleConnetWalletClick = async () =>{
+
+      await connectWallet(); // Use if using context
+      console.log(publicKey)
       try {
-        const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/nonce`, publicKey)
+        const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/nonce`, {publicKey})
         if(response.data.statusCode == 200){
           publicKey.nonce = response.data.data.nonce
   
           try {
-            const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/verify-nonce`, publicKey)
+            const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/verify-nonce`, {publicKey})
             console.log(response)
             if(response.data.statusCode == 200){
               localStorage.setItem("accessToken" , response.data.data.token)

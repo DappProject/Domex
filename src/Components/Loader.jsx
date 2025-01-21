@@ -46,7 +46,7 @@ const Loader = ({ onLoaded }) => {
   ref={textRef}
   className="text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-500 text-8xl font-bold mb-4 opacity-0"
 >
-  DOMEX
+  Domex.
 </h1>
 
     
