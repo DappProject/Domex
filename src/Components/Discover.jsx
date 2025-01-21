@@ -10,125 +10,7 @@ function Discover() {
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
   const [agents, setAgents] = useState([])
-  const cards = [
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/gemma.png",
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Gemma",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
-      title: "zee",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Meta LLama",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/gemma.png",
-      title: "bot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Gemma",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/gemma.png",
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Gemma",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Meta LLama",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/gemma.png",
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Gemma",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Meta LLama",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/gemma.png",
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Gemma",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Meta LLama",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Meta LLama",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Meta LLama",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Meta LLama",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-    {
-      image : "https://psynova.s3.ap-southeast-1.amazonaws.com/model/meta.png",
-      title: "zeebot",
-      description: "im here to stay",
-      owner: "cgjo...6wjj",
-      modeProvider: "Meta LLama",
-      modeName: "Chat (67B)",
-      created: "4 hours ago",
-    },
-  ];
+
   
   useEffect(()=>{
     setLoading(true)
@@ -197,7 +79,7 @@ function Discover() {
       {/* Pagination */}
       {agents.length > 0&&<Stack spacing={2} className="mt-8 items-center">
         <Pagination
-          count={Math.ceil(cards.length / itemsPerPage)}
+          count={Math.ceil(agents.length / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
           variant="outlined"

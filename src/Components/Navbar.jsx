@@ -6,45 +6,40 @@ import axios from "axios";
 import useAccess from "../context/accessTokenContext.js";
 import { CiWallet } from "react-icons/ci";
 import { AiFillFire } from "react-icons/ai";
-
 import { Connection, PublicKey } from "@solana/web3.js";
-
 import CountdownTimer from "./CountDownTimer.jsx";
+import { useWallet } from "../axios/WalletContext.jsx";
 
 const api_url = import.meta.env.API_URL
-import { useWallet } from "../axios/WalletContext.jsx";
 
 function Navbar() {
   const navigate = useNavigate()
  const {isAccessToken} = useAccess()
+ const { connectWallet, publicKey, error } = useWallet();
 
  const[loading, setLoading] = useState(false)
 
- const [time, setTime] = useState(12 * 60 * 60);
-//  const[loading, setLoading] = useState(false)
-
-
-console.log(publicKey,"in navbar")
+    console.log(publicKey,"in navbar")
   const handleConnetWalletClick = async () =>{
 
-
-
-    await connectWallet(); // Use if using context
+    await connectWallet();
     console.log(publicKey)
     setLoading(true)
 
-  const handleConnetWalletClick = async () =>{
     // setLoading(true)
 
     try {
       console.log(publicKey,"inside the function")
-      const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/nonce`, {publicKey})
-      if(response.data.statusCode == 200){
-        publicKey.nonce = response.data.data.nonce
+      const response1 = await axios.post(`https://domex-mw1q.onrender.com/auth/user/nonce`, {publicKey})
+      if(response1.data.statusCode == 200){
+        // publicKey.nonce = response.data.data.nonce
+        // console.log(publicKey + "  nonce")
 
         try {
-          const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/verify-nonce`, {publicKey})
-          console.log(response)
+          console.log("called before")
+          const response = await axios.post(`https://domex-mw1q.onrender.com/auth/user/verify-nonce`, {publicKey, nonce : response1.data.data.nonce})
+          console.log("called after")
+          // console.log(response)
           if(response.data.statusCode == 200){
             // setLoading(false)
             localStorage.setItem("accessToken" , response.data.data.token)
@@ -80,30 +75,7 @@ console.log(publicKey,"in navbar")
       console.log(error)
     }
   }
-
-
-  useEffect(() => {
-
-    const timer = setInterval(() => {
-      setTime((prevTime) => {
-        if (prevTime <= 0) {
-          clearInterval(timer); 
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const formatTime = (seconds) => {
-    const hrs = String(Math.floor(seconds / 3600)).padStart(2, "0");
-    const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
-    const secs = String(seconds % 60).padStart(2, "0");
-    return `${hrs}:${mins}:${secs}`;
-  };
-
+  
   return (
     <>
       <nav className="h-[74px] w-full bg-darkprimary flex items-center justify-center  text-white fixed top-0 border-b-[1px] border-darksecondary hover:border-1">
@@ -170,6 +142,7 @@ console.log(publicKey,"in navbar")
       </nav>
     </>
   );
-}
+};
+
 
 export default Navbar;
