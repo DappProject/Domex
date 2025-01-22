@@ -186,7 +186,7 @@ function AiAgent() {
                   <h1 className="bg-gradient-to-r from-white to-[#478ec4] bg-clip-text text-transparent md:text-2xl text-xl font-bold">
                     {agentData?.name}
                   </h1>
-                  <p className="text-sm text-zinc-400 ">
+                  <p className="text-sm text-zinc-400">
                     {agentData?.introduction}
                   </p>
                 </div>
@@ -258,7 +258,7 @@ function AiAgent() {
                     )}
                   </p>
                 </div>
-                {!throughMyAgent && (
+                {!throughMyAgent || agentData.isPublic && (
                   <div className="bg-darksecondary py-3 px-5  flex items-center justify-between gap-5 rounded-lg border-[1px] border-zinc-700">
                     <div className="truncate w-[60%]">
                       <a href={currentUrl} target="blank" className=" text-sm ">
@@ -282,21 +282,21 @@ function AiAgent() {
                   {agentData.modeProvider == "OPENAI" && (
                     <img
                       src={gpt}
-                      alt={name}
-                      className="h-8 w-8 rounded-full"
+                      alt={agentData.name}
+                      className="h-8 rounded-full"
                     />
                   )}
                   {agentData.modeProvider == "GEMMA" && (
                     <img
                       src={gemma}
-                      alt={name}
+                      alt={agentData.name}
                       className="h-8 w-8 rounded-full"
                     />
                   )}
                   {agentData.modeProvider == "LAMA" && (
                     <img
                       src={meta}
-                      alt={name}
+                      alt={agentData.name}
                       className="h-8 w-8 rounded-full"
                     />
                   )}{" "}
@@ -318,7 +318,7 @@ function AiAgent() {
                 </p>
               </div>
             </div>
-            <div className="md:w-[64%] min-h-[80vh] h-full w-full rounded-xl bg-darkprimary p-5">
+            <div className="md:w-[64%] md:min-h-[80vh] min-h-[70h] w-full rounded-xl bg-darkprimary md:p-5 p-3">
               {throughMyAgent && (
                 <div className="w-full flex justify-center items-center self-center mb-1">
                   <div className="md:w-[55%] w-full h-12 bg-black rounded-full flex items-center p-1 gap-1 cursor-pointer">
@@ -371,7 +371,7 @@ function AiAgent() {
                     <>
                       <div class="flex justify-end">
                         <div class="flex justify-start">
-                          <div class="text-white p-3 rounded-lg max-w-xs">
+                          <div class="text-white rounded-lg max-w-xs">
                             <div className=" flex justify-end">
                               <p className="w-fit text-sm text-zinc-400 text-end self-end">
                                 You
@@ -385,7 +385,7 @@ function AiAgent() {
                         <ChatLoader />
                       ) : (
                         <div className="text-white rounded-lg max-w-xs">
-                          <p className="text-sm text-zinc-400">Agent</p>
+                          <p className="text-sm text-zinc-400">{agentData.name}</p>
                           {chat.receiver}
                         </div>
                       )}
@@ -404,7 +404,7 @@ function AiAgent() {
                 onSubmit={handleSubmit}
                 className={`${modechange == "chat" ? "block" : "hidden"}`}
               >
-                <div className="w-full flex justify-between items-center bg-darksecondary md:text-base text-sm py-3 px-3 border-[1px] border-zinc-700 rounded-lg static bottom-10 text-zinc-400">
+                <div className="w-full flex justify-between items-center bg-darksecondary md:text-base text-sm py-3 px-3 border-[1px] border-zinc-700 rounded-lg static bottom-10  text-zinc-400">
                   <input
                     type="text"
                     className=" outline-none bg-transparent w-full"

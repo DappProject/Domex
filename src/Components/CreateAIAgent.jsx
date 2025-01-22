@@ -216,7 +216,7 @@ console.log(errors.general)
                         <img src={meta} alt="" className="h-8 w-8 " />
                       )}
 
-                      <span className="ml-2 sm:text-base text-xs text-nowrap">
+                      <span className=" sm:text-base text-xs text-nowrap">
                         {provider.name}
                       </span>
                     </div>

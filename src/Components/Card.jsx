@@ -2,6 +2,7 @@ import React from 'react';
 import { IoMdPerson } from "react-icons/io";
 import { PiDevicesFill } from "react-icons/pi";
 import { LuCalendarDays } from "react-icons/lu"
+import { MdPersonPin } from "react-icons/md";
 import gpt from "../assets/openai.png";
 import gemma from "../assets/gemma.png";
 import meta from "../assets/meta.png";
@@ -50,7 +51,7 @@ const Card = ({name, introduction, owner, modeProvider, modeName, isPublic, crea
       </div>
 
       </div>
-        <h2 className="text-base font-bold text-white mb-2">{name}</h2>
+        <h2 className="text-base font-bold text-white mb-2 ">{name}</h2>
 
       <p className="text-zinc-300 sm:text-sm text-xs mb-4 truncate">{introduction}</p>
 
@@ -58,31 +59,31 @@ const Card = ({name, introduction, owner, modeProvider, modeName, isPublic, crea
         {window.location.pathname == "/Discover"&&<p className='sm:text-base text-sm flex justify-between items-center'>
           <span className="flex items-center space-x-2 text-zinc-400">
             <i className="material-icons sm:text-lg text-base"><IoMdPerson/></i>
-            <span className="font-semibold sm:text-base text-sm">Owner</span>
+            <span className="font-semibold  text-sm">Owner</span>
           </span>
           <span className='text-sm w-24 truncate'>
 
              {owner}
           </span>
         </p>}
-        <p className='sm:text-base text-sm flex justify-between items-center'>
+        <p className='text-sm flex justify-between items-center'>
           <span className="flex items-center space-x-2 text-zinc-400">
-            <i className="material-icons sm:text-lg text-base"></i>
-            <span className="font-semibold sm:text-base text-sm">Mode Provider</span>
+            <i className="material-icons sm:text-lg text-base"><MdPersonPin/></i>
+            <span className="font-semibold  text-sm">Mode Provider</span>
           </span>
              {modeProvider}
         </p>
-        <p className='sm:text-base text-sm flex justify-between items-center'>
+        <p className=' text-sm flex justify-between items-center'>
           <span className="flex items-center space-x-2 text-zinc-400">
             <i className="material-icons  sm:text-lg text-base"><PiDevicesFill/></i>
-            <span className="font-semibold sm:text-base text-sm">Mode Name</span> 
+            <span className="font-semibold  text-sm">Mode Name</span> 
           </span>
             {modeName}
         </p>
-        <p className='sm:text-base text-sm flex justify-between items-center'>
+        <p className=' text-sm flex justify-between items-center'>
           <span className="flex items-center space-x-2 text-zinc-400">
             <i className="material-icons  sm:text-lg text-base"><LuCalendarDays/></i>
-            <span className="font-semibold sm:text-base text-sm">Created</span> 
+            <span className="font-semibold  text-sm">Created</span> 
           </span>
           {months < 1
                       ? weeks < 1

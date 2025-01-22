@@ -20,7 +20,7 @@ const Process = () => {
      ];
 
      return (
-          <div className="bg-[#080808] text-white py-16 px-6 md:py-20 md:px-10 lg:px-20">
+          <section id="Create AI Agent" className="bg-[#080808] text-white py-16 px-6 md:py-20 md:px-10 lg:px-20">
                <h2
                     className="text-5xl md:text-7xl  lg:text-8xl underline font-bold text-left mb-14 bg-clip-text text-transparent bg-gradient-to-r from-gray-300 to-blue-500"
                >
@@ -44,7 +44,7 @@ const Process = () => {
                          </div>
                     ))}
                </div>
-          </div>
+          </section>
      );
 };
 

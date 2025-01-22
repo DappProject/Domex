@@ -12,6 +12,7 @@ import { CiWallet } from "react-icons/ci";
 const api_url = import.meta.env.API_URL;
 import { useWallet } from "../axios/WalletContext.jsx";
 import {handleConnectWallet} from "../axios/ConnectUtils.js"
+import CountdownTimer from "./CountDownTimer.jsx";
 
 export default function MyDrawer() {
   const navigate = useNavigate()
@@ -56,7 +57,8 @@ export default function MyDrawer() {
                   isActive ? "text-primary bg-darksecondary " : "text-white"
                 } hover:text-primary duration-150 font-bold rounded-3xl px-5 py-2 w-full text-center`
               }
-              to="/"
+              to="/Discover"
+              end
             >
               Discover
             </NavLink>
@@ -66,7 +68,7 @@ export default function MyDrawer() {
                   isActive ? "text-primary bg-darksecondary  " : "text-white"
                 } hover:text-primary duration-150 font-bold rounded-3xl px-5 py-2 w-full text-center`
               }
-              to={"/my-agent"}
+              to={"/Discover/my-agent"}
             >
               My AI Agent
             </NavLink>
@@ -86,8 +88,8 @@ export default function MyDrawer() {
             </button>
           )}
           {isAccessToken ? (
-            <button className="w-full bg-primary hover:bg-secondary duration-200 px-4 py-2 sm:text-base text-sm text-black rounded-3xl font-medium flex items-center justify-center gap-1">
-              Credits : <AiFillFire className="text-black text-lg" /> 99
+            <button className="w-full bg-[#4270b5] hover:bg-secondary duration-200 px-4 py-2 sm:text-base text-sm text-black rounded-3xl font-medium flex items-center justify-center gap-1">
+             Test Credits Enabled: <CountdownTimer/>
             </button>
           ) : (
             <button className="w-auto bg-darksecondary px-8 py-2 rounded-3xl sm:text-base text-sm text-nowrap text-white">

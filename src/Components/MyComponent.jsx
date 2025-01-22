@@ -7,6 +7,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 const MyComponent = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -71,28 +72,36 @@ const MyComponent = () => {
           {/* Drawer Content */}
           <List>
             <ListItem button onClick={() => handleNavigation("/discover")}>
-              <ListItemText
-                primary="Discover"
-                primaryTypographyProps={{ className: "text-white" }}
-              />
+              <a
+                 onClick={toggleDrawer(false)}
+                href="#Discover"
+                // primary="Discover"
+                className ="text-white font-bold"
+                >Discover</a>
             </ListItem>
             <ListItem button>
-              <ListItemText
-                primary="Features"
-                primaryTypographyProps={{ className: "text-white" }}
-              />
+            <a
+                 onClick={toggleDrawer(false)}
+                href="#Features"
+                // primary="Discover"
+                className ="text-white font-bold"
+                >Features</a>
             </ListItem>
             <ListItem button>
-              <ListItemText
-                primary="Create Ai Agent"
-                primaryTypographyProps={{ className: "text-white" }}
-              />
+            <a
+                 onClick={toggleDrawer(false)}
+                href="#Create AI Agent"
+                // primary="Discover"
+                className ="text-white font-bold"
+                >Create AI Agent</a>
             </ListItem>
             <ListItem button>
-              <ListItemText
-                primary="FAQ"
-                primaryTypographyProps={{ className: "text-white" }}
-              />
+            <a
+                 onClick={toggleDrawer(false)}
+                href="#FAQs"
+                // primary="Discover"
+                className ="text-white font-bold"
+                >FAQs</a>
             </ListItem>
           </List>
         </div>
@@ -102,9 +111,9 @@ const MyComponent = () => {
       <div className="hidden md:block">
         <button
           onClick={() => handleNavigation("/discover")}
-          className="cta-button border border-[#0f0f0f] px-4 sm:px-5 py-2 font-semibold text-gray-400 rounded-md hover:from-white hover:to-blue-400 transition-all duration-300"
+          className="cta-button px-5 sm:px-6 py-2 font-semibold text-zinc-300 hover:bg-primary bg-[#2f4f7f]  rounded-md  transition-all duration-300 flex items-center gap-2"
         >
-          Try Your Tool
+         Login <FaArrowRightLong className="text-xl"/>
         </button>
       </div>
     </div>

@@ -11,13 +11,13 @@ function Footer() {
         <div className="w-[80%] flex justify-between items-center">
             <div className="w-full flex md:flex-row flex-col justify-between items-center">
             <div>
-                <Link className="text-[21px] font-semibold" to={"/"}>Domex</Link>
+                <Link className="md:text-[21px] text-[18px] md:text-right text-center font-semibold" to={"/"}>Domex</Link>
                 <p className='text-xs text-gray-500'>@2025 Domex | All rights reserved</p>
             </div>
                 <div className='flex items-center gap-8'>
-                    <i className='text-2xl'><RiTwitterXFill/></i>
-                    <i className='text-2xl'><RiTelegram2Fill/></i>
-                    <i className='text-2xl'><FaGithub/></i>
+                    <i className='md:text-2xl text-base'><RiTwitterXFill/></i>
+                    <i className='md:text-2xl text-base'><RiTelegram2Fill/></i>
+                    <i className='md:text-2xl text-base'><FaGithub/></i>
                 </div>
                 
             </div>
