@@ -38,6 +38,8 @@ export default function MyDrawer() {
     }
   }
 
+  const walletName = localStorage.getItem("walletName")
+
   const DrawerList = (
     <Box
       className="w-[100%] h-full flex flex-col justify-center items-center p-5"
@@ -77,7 +79,7 @@ export default function MyDrawer() {
         <div className="w-full flex flex-col justify-end items-center gap-3">
           {isAccessToken ? (
             <button className="w-64 bg-gradient-to-b from-primary border-[1px] border-secondary text-nowrap duration-200 px-4 py-2 text-white rounded-3xl font-medium flex items-center justify-center gap-2" onClick={()=>{handleDiscnnectWalletClick()}}>
-              <CiWallet /> 9au...pgsk
+              <CiWallet /> {walletName}
             </button>
           ) : (
             <button
