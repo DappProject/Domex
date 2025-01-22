@@ -109,7 +109,7 @@ function MyAIAgent() {
             <NavLink to="/Discover" className="h-16 w-16 flex items-center justify-center rounded-full bg-darksecondary">
               <HiOutlinePlus  className="text-3xl"/>
             </NavLink>
-            <h1>Create AI Agent</h1>
+            <p className="text-lg">Create AI Agent</p>
             <p className="text-[14px] text-zinc-400 text-center">Craft and deploy intelligent AI agents tailored to your specific objectives.</p>
 
             {

@@ -49,13 +49,14 @@ const Landing = () => {
               </div>
               <div className=" border-2 bg-[#0f0f0f87] border-[#0f0f0f] rounded-lg py-2 px-10 hidden md:flex space-x-8">
                 {["Discover", "Features", "Create AI Agent", "FAQs"].map((item, index) => (
-                  <Link
+                  <a
                     key={index}
-                    to={`${item.toLowerCase().replace(" ", "-")}`}
+                    href={`${item == "Discover" ? "/Discover" : `#${item}`}`}
                     className="menu-item text-gray-600 font-semibold hover:text-transparent hover:bg-clip-text  hover:bg-gradient-to-l hover:from-white hover:to-blue-400 transform transition-transform duration-300 hover:scale-110"
+                    
                   >
                     {item}
-                  </Link>
+                  </a>
                 ))}
               </div>
               <MyComponent />
@@ -73,7 +74,7 @@ const Landing = () => {
                   navigate("/discover");
                 }}
               >
-                Try Your Tool
+                Explore Now
               </button>
             </div>
 

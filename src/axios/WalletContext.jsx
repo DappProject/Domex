@@ -13,7 +13,7 @@ export const WalletProvider = ({ children }) => {
     setError(error);
     return { publicKey, error }; // Return value for immediate usage
   };
-console.log(publicKey,"in wallet context")
+// console.log(publicKey,"in wallet context")
   return (
     <WalletContext.Provider value={{ publicKey, error, connectWallet }}>
       {children}

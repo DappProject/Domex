@@ -52,7 +52,7 @@ const OurFeatures = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (
-    <div className="relative bg-[rgba(0,0,0,0.97)] py-10 sm:py-14 lg:py-20">
+    <section id='Features' className="relative bg-[rgba(0,0,0,0.97)] py-10 sm:py-14 lg:py-20">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-4 lg:px-0">
       <h2 className="text-4xl sm:text-5xl lg:text-8xl mb-9 font-bold bg-gradient-to-t from-white via-gray-400 to-gray-700 bg-clip-text text-transparent text-center md:text-start transition-all duration-300 "> Our Feature's</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12">
@@ -66,11 +66,11 @@ const OurFeatures = () => {
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
-              <div className="relative h-48 sm:h-64 lg:h-72 w-full">
+              <div className="relative h-48 sm:h-64 lg:h-72 w-full ">
                 <img
                   src={hoveredIndex === index ? feature.gif : feature.preview}
                   alt={feature.heading}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover "
                   style={{
     userSelect: "none", // Disable text selection
     pointerEvents: "none", // Disable dragging
@@ -120,7 +120,7 @@ const OurFeatures = () => {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

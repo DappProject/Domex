@@ -20,7 +20,7 @@ function Navbar() {
 
   const [loading, setLoading] = useState(false);
 
-  console.log(publicKey, "in navbar");
+  // console.log(publicKey, "in navbar");
   const handleConnetWalletClick = async () => {
     handleConnectWallet(connectWallet,navigate,setLoading)
   };
@@ -40,9 +40,12 @@ function Navbar() {
     }
   };
 
+  const walletName = localStorage.getItem("walletName")
+  
+
   return (
     <>
-      <nav className="h-[74px] w-full bg-darkprimary flex items-center justify-center  text-white fixed top-0 border-b-[1px] border-darksecondary hover:border-1">
+      <nav className="h-[74px] w-full bg-darkprimary flex items-center justify-center  text-white fixed top-0 border-b-[1px] border-darksecondary hover:border-1 z-10">
         <div className="w-[80%] md:flex hidden justify-between items-center">
           <div className="md:w-1/3 flex justify-between items-center">
             <NavLink
@@ -93,7 +96,7 @@ function Navbar() {
                   handleDiscnnectWalletClick();
                 }}
               >
-                <CiWallet className="text-white text-lg" /> 9au...p3k
+                <CiWallet className="text-white text-lg" /> {walletName}
               </button>
             ) : (
               <button

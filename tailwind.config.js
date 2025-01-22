@@ -31,7 +31,11 @@ export default {
       },
       backgroundImage : {
         "bg-main" : "url(./assets/bg-main.png)"
-      }
+      },
+      fontFamily: {
+        arbutus: ['arbutus'], // Add "arbutus"
+        montserrat: ['montserrat'], // Add "montserrat"
+      },
     },
   },
   plugins: [],

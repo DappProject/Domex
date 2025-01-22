@@ -10,8 +10,8 @@ export const handleConnectWallet = async (connectWallet, navigate, setLoading) =
     }
 
     const currentPublicKey = walletResponse.publicKey;
-    console.log(currentPublicKey);
-
+    // console.log(currentPublicKey);
+    localStorage.setItem("walletName" , `${currentPublicKey.slice(0, 5)}...${currentPublicKey.slice(-3)}`)
     setLoading && setLoading(true); // Update loading state if provided
 
     // Step 2: Fetch nonce

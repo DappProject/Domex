@@ -1,3 +1,35 @@
+ @font-face {
+   font-family: 'arbutus';
+   font-style: normal;
+   src: url(./public/font/Arbutus-Regular.woff2) format('woff2');
+ }
+
+ @font-face {
+   font-family: 'montserrat';
+   font-style: normal;
+   src: url(./public/font/Montserrat-VariableFont_wght.woff2) format('woff2');
+ }
+ p{
+  font-family: "montserrat"
+ }
+
+ /* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;/* Adjust the width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #39609b; /* Custom thumb color */
+  border-radius: 10px; /* Round corners for the thumb */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #262626; /* Track color */
+  /* border-radius: 10px; Round corners for the track */
+}
+
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,4 +37,5 @@
 html {
      scroll-behavior: smooth;
    }
+
    
