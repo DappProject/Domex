@@ -15,21 +15,21 @@ const api_url = import.meta.env.API_URL;
 
 function Navbar() {
   const navigate = useNavigate();
-  const { isAccessToken } = useAccess();
+  const { isAccessToken, setIsAccessToken } = useAccess();
   const { connectWallet, publicKey, error } = useWallet();
 
   const [loading, setLoading] = useState(false);
 
   // console.log(publicKey, "in navbar");
   const handleConnetWalletClick = async () => {
-    handleConnectWallet(connectWallet,navigate,setLoading)
+    handleConnectWallet(connectWallet,navigate,setLoading,setIsAccessToken)
   };
 
   const handleDiscnnectWalletClick = async () => {
     try {
-      console.log("called");
+      // console.log("called");
       localStorage.removeItem("accessToken");
-      window.location.href = "/Discover/my-agent";
+      setIsAccessToken(false)
       navigate("/Discover/my-agent", {
         state: {
           walletConnected: false,
@@ -96,7 +96,7 @@ function Navbar() {
                   handleDiscnnectWalletClick();
                 }}
               >
-                <CiWallet className="text-white text-lg" /> {walletName}
+                <CiWallet className="text-white text-lg" />{walletName ? walletName:  "Connected"}
               </button>
             ) : (
               <button

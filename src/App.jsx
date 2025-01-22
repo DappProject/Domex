@@ -20,7 +20,7 @@ function App() {
 
     <WalletProvider>
 
-      <AccessProvider value={{isAccessToken}}>
+      <AccessProvider value={{isAccessToken,setIsAccessToken}}>
       <Navbar/>
         <div className='bg-black bg-bg-main bg-cover bg-center bg-fixed min-h-[85vh] w-full py-2 scrollbar-hide mt-[74px] mb-16 flex justify-center md:px-5 px-3'>
           <Outlet/>

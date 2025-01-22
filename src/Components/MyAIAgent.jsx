@@ -18,7 +18,7 @@ function MyAIAgent() {
   const navigate = useNavigate()
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [loading, setLoading] = useState(false)
-  const {isAccessToken} = useAccess();
+  const {isAccessToken,setIsAccessToken} = useAccess();
  const { connectWallet, publicKey, error } = useWallet();
   const [open, setOpen] = useState(false);
   const [agents, setAgents] = useState([])
@@ -88,7 +88,7 @@ function MyAIAgent() {
 
 
       const handleConnetWalletClick = async () => {
-         handleConnectWallet(connectWallet,navigate,setLoading)
+         handleConnectWallet(connectWallet,navigate,setLoading, setIsAccessToken)
        };
 
   return (

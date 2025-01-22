@@ -16,7 +16,7 @@ import CountdownTimer from "./CountDownTimer.jsx";
 
 export default function MyDrawer() {
   const navigate = useNavigate()
-  const { isAccessToken } = useAccess();
+  const { isAccessToken,setIsAccessToken } = useAccess();
   const [open, setOpen] = React.useState(false);
    const [loading, setLoading] = React.useState(false);
  const { connectWallet, publicKey, error } = useWallet();
@@ -25,13 +25,14 @@ export default function MyDrawer() {
     setOpen(newOpen);
   };
  const handleConnetWalletClick = async () => {
-    handleConnectWallet(connectWallet,navigate,setLoading)
+    handleConnectWallet(connectWallet,navigate,setLoading,setIsAccessToken)
   };
   const handleDiscnnectWalletClick =  async () => {
     try {
       
-      console.log('called')
+      // console.log('called')
         localStorage.removeItem("accessToken")
+        setIsAccessToken(false)
       navigate("/Discover/my-agent")
     } catch (error) {
       console.log(error)
@@ -79,7 +80,7 @@ export default function MyDrawer() {
         <div className="w-full flex flex-col justify-end items-center gap-3">
           {isAccessToken ? (
             <button className="w-64 bg-gradient-to-b from-primary border-[1px] border-secondary text-nowrap duration-200 px-4 py-2 text-white rounded-3xl font-medium flex items-center justify-center gap-2" onClick={()=>{handleDiscnnectWalletClick()}}>
-              <CiWallet /> {walletName}
+              <CiWallet /> {walletName ? walletName:  "Connected"}
             </button>
           ) : (
             <button

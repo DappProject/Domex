@@ -1,6 +1,7 @@
 import axios from "axios";
+import useAccess from "../context/accessTokenContext";
 
-export const handleConnectWallet = async (connectWallet, navigate, setLoading) => {
+export const handleConnectWallet = async (connectWallet, navigate, setLoading, setIsAccessToken) => {
   try {
     // Step 1: Connect wallet
     const walletResponse = await connectWallet(); // Await wallet connection
@@ -11,7 +12,7 @@ export const handleConnectWallet = async (connectWallet, navigate, setLoading) =
 
     const currentPublicKey = walletResponse.publicKey;
     // console.log(currentPublicKey);
-    localStorage.setItem("walletName" , `${currentPublicKey.slice(0, 5)}...${currentPublicKey.slice(-3)}`)
+    
     setLoading && setLoading(true); // Update loading state if provided
 
     // Step 2: Fetch nonce
@@ -31,9 +32,9 @@ export const handleConnectWallet = async (connectWallet, navigate, setLoading) =
 
       if (response2.data.statusCode === 200) {
         localStorage.setItem("accessToken", response2.data.data.token);
-
+        localStorage.setItem("walletName" , `${currentPublicKey.slice(0, 5)}...${currentPublicKey.slice(-3)}`)
         // Navigate to the desired route
-        window.location.href = "/Discover/my-agent";
+        setIsAccessToken(true)
         navigate("/Discover/my-agent", {
           state: {
             walletConnected: true,
