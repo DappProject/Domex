@@ -14,7 +14,12 @@ import MyComponent from "./MyComponent";
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  // 
+
+  const handleLoaderComplete = () => {
+    setIsLoading(false);
+  };
+
+  // useEffect(() => {
   //   if (!isLoading) {
   //     // GSAP Timeline for Navbar Animation
   //     const tl = gsap.timeline();
@@ -37,10 +42,6 @@ const Landing = () => {
   //   }
   // }, [isLoading]);
 
-  const handleLoaderComplete = () => {
-    setIsLoading(false);
-  };
-
   return (
     <>
       <MouseFollower />
@@ -49,6 +50,8 @@ const Landing = () => {
           autoPlay
           loop
           muted
+          playsInline
+          controls={false}
           className="absolute top-0 inset-0 w-full h-full object-cover"
           style={{ filter: "blur(4px)" }}
         >
@@ -72,7 +75,7 @@ const Landing = () => {
                 {["Discover", "Features", "Create AI Agent", "FAQs"].map((item, index) => (
                   <a
                     key={index}
-                    href={`${item == "Discover" ? "/Discover" : `#${item}`}`}
+                    href={`${item === "Discover" ? "/Discover" : `#${item}`}`}
                     className="menu-item text-gray-600 font-semibold hover:text-transparent hover:bg-clip-text  hover:bg-gradient-to-l hover:from-white hover:to-blue-400 transform transition-transform duration-300 hover:scale-110"
                     
                   >
