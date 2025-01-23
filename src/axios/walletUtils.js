@@ -11,17 +11,9 @@ export const connectToPhantomWallet = async () => {
       return { publicKey: null, error: err.message || "An unknown error occurred" };
     }
   } else if (navigator.userAgent.match(/(iPhone|iPad|iPod|Android)/i)) {
-    const phantomAppUrl = "phantom://"; // Custom URL scheme to open the Phantom app on mobile
+    const callbackUrl = encodeURIComponent(window.location.href);
+    const phantomAppUrl = `phantom://connect?callbackUrl=${callbackUrl}`; // Custom URL scheme to open the Phantom app on mobile
     alert("Phantom wallet not found on your browser. Opening Phantom app...");
-
-    // Listen for the connect event
-    window.addEventListener("message", (event) => {
-      if (event.data && event.data.method === "connected") {
-        const publicKey = event.data.params.publicKey;
-        console.log("Public Key:", publicKey);
-        return { publicKey, error: null };
-      }
-    });
 
     // Attempt to open the Phantom app directly using the custom URL scheme
     window.location.href = phantomAppUrl;

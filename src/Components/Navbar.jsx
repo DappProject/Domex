@@ -9,7 +9,7 @@ import { AiFillFire } from "react-icons/ai";
 import { Connection, PublicKey } from "@solana/web3.js";
 import CountdownTimer from "./CountDownTimer.jsx";
 import { useWallet } from "../axios/WalletContext.jsx";
-import {handleConnectWallet} from "../axios/ConnectUtils.js"
+import { handleConnectWallet } from "../axios/ConnectUtils.js";
 
 const api_url = import.meta.env.API_URL;
 
@@ -20,9 +20,8 @@ function Navbar() {
 
   const [loading, setLoading] = useState(false);
 
-  // console.log(publicKey, "in navbar");
   const handleConnetWalletClick = async () => {
-    handleConnectWallet(connectWallet,navigate,setLoading,setIsAccessToken)
+    handleConnectWallet(connectWallet, navigate, setLoading, setIsAccessToken);
   };
 
   const handleDiscnnectWalletClick = async () => {
