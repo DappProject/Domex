@@ -14,6 +14,15 @@ export const connectToPhantomWallet = async () => {
     const phantomAppUrl = "phantom://"; // Custom URL scheme to open the Phantom app on mobile
     alert("Phantom wallet not found on your browser. Opening Phantom app...");
 
+    // Listen for the connect event
+    window.addEventListener("message", (event) => {
+      if (event.data && event.data.method === "connected") {
+        const publicKey = event.data.params.publicKey;
+        console.log("Public Key:", publicKey);
+        return { publicKey, error: null };
+      }
+    });
+
     // Attempt to open the Phantom app directly using the custom URL scheme
     window.location.href = phantomAppUrl;
 
